@@ -9,7 +9,7 @@ import { ShimmerButton } from "../magicui/shimmer-button";
 function Navbar({ className }: { className?: string }) {
   return (
     <>
-      <div className="fixed w-full top-5">
+      <div className="fixed w-full top-5 z-[9999]">
         <div className="OuterNavbar flex justify-between bg-gray-300 bg-opacity-45 backdrop-blur-md rounded-full px-5 w-10/12 m-auto py-3 border border-white ">
           <div className="Left flex items-center gap-2">
             <div className="LeftIn flex items-center gap-1 cursor-pointer">

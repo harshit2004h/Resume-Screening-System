@@ -9,6 +9,7 @@ import {
 import { Input } from "@/src/components/ui/input";
 import { Label } from "@/src/components/ui/label";
 import Link from "next/link";
+import Navbar from "@/src/components/Landing-Page/NavBar";
 
 const SignUp = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -24,7 +25,7 @@ const SignUp = () => {
         ></div>
       </div>
       <div className="h-screen flex items-center w-[40vw] ">
-        <div className="max-w-md w-full mx-auto rounded-none md:rounded-2xl p-4  shadow-input bg-white dark:bg-black   ">
+        <div className="max-w-md w-full mx-auto rounded-none md:rounded-2xl p-4 shadow-input bg-white dark:bg-black   ">
           <h2 className="font-bold text-xl text-neutral-800 dark:text-neutral-200">
             Welcome to Skill Sage
           </h2>
