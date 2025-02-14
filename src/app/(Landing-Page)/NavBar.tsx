@@ -3,11 +3,11 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Dropdown from "./ui/dropdown";
-import { ShinyButton } from "../magicui/shiny-button";
-import { ShimmerButton } from "../magicui/shimmer-button";
+import { ShinyButton } from "@/src/components/magicui/shiny-button";
+import { ShimmerButton } from "@/src/components/magicui/shimmer-button";
 import { Moon, Sun } from "lucide-react";
 
-function Navbar({ className }: { className?: string }) {
+function Navbar({}: { className?: string }) {
   const [darkMode, setDarkMode] = useState(false);
 
   useEffect(() => {

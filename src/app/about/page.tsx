@@ -1,5 +1,5 @@
 "use client";
-import Navbar from "@/src/components/Landing-Page/NavBar";
+import Navbar from "@/src/app/(Landing-Page)/NavBar";
 import { useEffect, useRef, useState } from "react";
 import { motion, useAnimation } from "framer-motion";
 import Image from "next/image";

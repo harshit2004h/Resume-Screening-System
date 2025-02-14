@@ -1,9 +1,7 @@
-import React from 'react'
+import React from "react";
 
 const UploadResume = () => {
-  return (
-    <div>UploadResume</div>
-  )
-}
+  return <div>UploadResume</div>;
+};
 
-export default UploadResume
+export default UploadResume;

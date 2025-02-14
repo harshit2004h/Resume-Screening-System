@@ -1,7 +1,7 @@
 "use client";
-
 import { useState } from "react";
-import Navbar from "@/src/components/Landing-Page/NavBar";
+import Navbar from "@/src/app/(Landing-Page)/NavBar";
+import Footer from "@/src/components/Footer";
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -23,7 +23,7 @@ export default function ContactPage() {
   return (
     <>
       <Navbar />
-      <div className="flex justify-center mt-28 px-4">
+      <div className="flex justify-center mt-28 px-4 mb-12">
         <div className="bg-white dark:bg-gray-900 text-gray-900 dark:text-white shadow-lg rounded-lg p-6 max-w-5xl w-full">
           <h2 className="text-2xl font-bold text-center mb-4">
             How would you like to contact Skill Sage?
@@ -144,6 +144,7 @@ export default function ContactPage() {
           </div>
         </div>
       </div>
+      <Footer/>
     </>
   );
 }

@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { cn } from "@/lib/utils";
+import { cn } from "@/src/lib/utils";
 import {
   IconBrandGithub,
   IconBrandGoogle,
@@ -9,7 +9,6 @@ import {
 import { Input } from "@/src/components/ui/input";
 import { Label } from "@/src/components/ui/label";
 import Link from "next/link";
-import Navbar from "@/src/components/Landing-Page/NavBar";
 
 const SignUp = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
