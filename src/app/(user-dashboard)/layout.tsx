@@ -1,29 +1,55 @@
-import { Inter } from "next/font/google"
-import { SidebarProvider } from "@/src/components/ui/sidebar"
-import { AppSidebar } from "@/src/components/app-sidebar"
-import { Header } from "@/src/components/header"
-import type React from "react"
+"use client";
 
-const inter = Inter({ subsets: ["latin"] })
+import { useState } from "react";
+import { Inter } from "next/font/google";
+import { AppSidebar } from "@/src/components/app-sidebar";
+import { Header } from "@/src/components/header";
+import type React from "react";
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+const inter = Inter({ subsets: ["latin"] });
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [sidebarWidth, setSidebarWidth] = useState(256); // Default sidebar width
+
   return (
     <html lang="en">
-      <body className={`${inter.className} bg-background text-foreground`}>
-        <SidebarProvider defaultOpen={true}>
-          <div className="flex h-screen">
-            <div className="bg-background/80 backdrop-blur-sm">
-              <AppSidebar />
-            </div>
-            <div className="flex flex-col flex-1 overflow-hidden">
-              <div className="bg-background/80 backdrop-blur-sm">
-                <Header />
-              </div>
-              <main className="flex-1 overflow-y-auto p-6 transition-all duration-300 ease-in-out">{children}</main>
-            </div>
+      <body
+        className={`${inter.className} bg-gray-100 dark:bg-[#121212] text-gray-900 dark:text-gray-100`}
+      >
+        {/* Dark Mode Background */}
+        <div className="fixed inset-0 -z-10 transition-all duration-150 dark:bg-black">
+          <div className="absolute top-0 h-screen w-screen dark:bg-[radial-gradient(#ffffff20_1px,#000000_1px)] dark:bg-[size:20px_20px]" />
+        </div>
+
+        <div className="flex h-screen overflow-hidden">
+          {/* Sidebar */}
+          <AppSidebar
+            isOpen={isSidebarOpen}
+            setIsOpen={setIsSidebarOpen}
+            sidebarWidth={sidebarWidth}
+            setSidebarWidth={setSidebarWidth}
+          />
+
+          {/* Main content container */}
+          <div
+            className="flex flex-col flex-1 transition-all ease-in-out"
+            style={{
+              marginLeft: isSidebarOpen ? sidebarWidth : 72,
+            }}
+          >
+            {/* Navbar (adjusts width dynamically) */}
+            <Header isSidebarOpen={isSidebarOpen} sidebarWidth={sidebarWidth} />
+
+            {/* Main content area */}
+            <main className="flex-1 overflow-y-auto p-6">{children}</main>
           </div>
-        </SidebarProvider>
+        </div>
       </body>
     </html>
-  )
+  );
 }

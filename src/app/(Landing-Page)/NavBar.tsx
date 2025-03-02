@@ -13,18 +13,22 @@ function Navbar({}: { className?: string }) {
   useEffect(() => {
     if (darkMode) {
       document.documentElement.classList.add("dark");
-      document.body.style.backgroundColor = "#121212"; // Dark mode background
     } else {
       document.documentElement.classList.remove("dark");
-      document.body.style.backgroundColor = "#eceeed"; // Light mode background
     }
   }, [darkMode]);
 
   return (
     <>
+      {/* Background */}
+      <div className="fixed inset-0 -z-10 transition-all duration-150">
+        <div className="absolute inset-0 bg-gray-100 dark:bg-[#000000] dark:bg-[radial-gradient(#ffffff33_1px,#00091d_1px)] dark:bg-[size:20px_20px] transition-all duration-150"></div>
+      </div>
+
+      {/* Navbar */}
       <div className="fixed w-full top-5 z-[9999]">
         <div
-          className={`OuterNavbar flex justify-between px-5 w-10/12 m-auto py-3 border rounded-full backdrop-blur-md transition-all duration-200 ${
+          className={`OuterNavbar flex justify-between px-5 w-10/12 m-auto py-3 border rounded-full backdrop-blur-md transition-all duration-150 ${
             darkMode
               ? "bg-gray-900/50 text-white border-gray-700"
               : "bg-gray-300/50 text-gray-800 border-white"
@@ -71,10 +75,10 @@ function Navbar({}: { className?: string }) {
             {/* Dark/Light Mode Toggle */}
             <div
               onClick={() => setDarkMode(!darkMode)}
-              className="relative w-16 h-9 flex items-center bg-gray-400 dark:bg-gray-800 rounded-full p-1 cursor-pointer shadow-md transition-all duration-200"
+              className="relative w-16 h-9 flex items-center bg-gray-400 dark:bg-gray-800 rounded-full p-1 cursor-pointer shadow-md transition-all duration-150"
             >
               <div
-                className={`absolute w-7 h-7 bg-white dark:bg-yellow-400 rounded-full flex items-center justify-center transition-all duration-200 ${
+                className={`absolute w-7 h-7 bg-white dark:bg-yellow-400 rounded-full flex items-center justify-center transition-all duration-150 ${
                   darkMode ? "translate-x-7" : "translate-x-0"
                 }`}
               >
