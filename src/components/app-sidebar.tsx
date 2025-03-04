@@ -7,6 +7,7 @@ import {
   Settings,
   Headphones,
   ChevronLeft,
+  TrendingUp,
 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
@@ -107,18 +108,18 @@ export function AppSidebar({
         <ul className="space-y-1 px-4">
           {[
             {
-              href: "/employee-dashboard",
+              href: "/user/dashboard",
               icon: LayoutDashboard,
-              label: "Tasks",
+              label: "Dashboard",
             },
-            { href: "/activities", icon: FileText, label: "Activities" },
-            { href: "/dashboard", icon: LayoutDashboard, label: "Dashboard" },
-            { href: "/schedule", icon: Calendar, label: "Schedule" },
-            { href: "/clients", icon: Users, label: "Clients" },
-            { href: "/employee-settings", icon: Settings, label: "Settings" },
-            { href: "/support", icon: Headphones, label: "Support" },
+            { href: "/user/resume", icon: FileText, label: "Resume" },
+            { href: "/user/rank", icon: TrendingUp, label: "Rank" },
+            { href: "/user/schedule", icon: Calendar, label: "Schedule" },
+            { href: "/user/profile", icon: Users, label: "Profile" },
+            { href: "/user/settings", icon: Settings, label: "Settings" },
+            { href: "/user/support", icon: Headphones, label: "Support" },
             {
-              href: "/logout",
+              href: "/user/logout",
               icon: LogOut,
               label: "Logout",
               className: "text-red-500 dark:text-red-400",
@@ -155,7 +156,7 @@ export function AppSidebar({
           {sidebarWidth > 100 && (
             <div>
               <p className="text-sm font-semibold text-gray-900 dark:text-gray-100">
-                Angela White 
+                Angela White
               </p>
               <p className="text-xs text-gray-600 dark:text-gray-400">
                 angelawhite@gmail.com

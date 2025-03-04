@@ -9,6 +9,7 @@ import {
 } from "@/src/components/ui/dropdown-menu";
 import { Input } from "@/src/components/ui/input";
 import Image from "next/image";
+import Link from "next/link";
 
 interface HeaderProps {
   isSidebarOpen: boolean;
@@ -75,9 +76,11 @@ export function Header({ isSidebarOpen, sidebarWidth }: HeaderProps) {
           </div>
         </div>
 
-        <Button variant="ghost" size="icon">
-          <Bell className="h-6 w-6 text-gray-700 dark:text-gray-300" />
-        </Button>
+        <Link href="/user/notifications">
+          <Button variant="ghost" size="icon">
+            <Bell className="h-6 w-6 text-gray-700 dark:text-gray-300" />
+          </Button>
+        </Link>
 
         {/* User Profile Dropdown */}
         <DropdownMenu>
