@@ -14,9 +14,10 @@ import Link from "next/link";
 interface HeaderProps {
   isSidebarOpen: boolean;
   sidebarWidth: number;
+  userName: string;
 }
 
-export function Header({ isSidebarOpen, sidebarWidth }: HeaderProps) {
+export function Header({ isSidebarOpen, sidebarWidth, userName }: HeaderProps) {
   const [darkMode, setDarkMode] = useState(false);
 
   useEffect(() => {
@@ -41,7 +42,7 @@ export function Header({ isSidebarOpen, sidebarWidth }: HeaderProps) {
           Welcome,
         </span>
         <span className="text-lg font-medium text-gray-800 dark:text-gray-200">
-          Angela White
+          {userName || "Angela White"}
         </span>
       </div>
 

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Inter } from "next/font/google";
 import { useParams } from "next/navigation";
-import { AppSidebar } from "@/src/components/app-sidebar";
+import { AppSidebar } from "@/src/components/hr-sidebar";
 import { Header } from "@/src/components/header";
 import type React from "react";
 
@@ -17,7 +17,7 @@ export default function RootLayout({
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [sidebarWidth, setSidebarWidth] = useState(256); // Default sidebar width
   const params = useParams();
-  const user = Array.isArray(params.user) ? params.user[0] : params.user;
+  const hr = Array.isArray(params.hr) ? params.hr[0] : params.hr;
 
   return (
     <html lang="en">
@@ -46,7 +46,7 @@ export default function RootLayout({
             }}
           >
             {/* Navbar (adjusts width dynamically) */}
-            <Header isSidebarOpen={isSidebarOpen} sidebarWidth={sidebarWidth} userName={user} />
+            <Header isSidebarOpen={isSidebarOpen} sidebarWidth={sidebarWidth} userName={hr} />
 
             {/* Main content area */}
             <main className="flex-1 overflow-y-auto p-6">{children}</main>
