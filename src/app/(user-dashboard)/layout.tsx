@@ -36,6 +36,7 @@ export default function RootLayout({
             setIsOpen={setIsSidebarOpen}
             sidebarWidth={sidebarWidth}
             setSidebarWidth={setSidebarWidth}
+            userName={user}
           />
 
           {/* Main content container */}

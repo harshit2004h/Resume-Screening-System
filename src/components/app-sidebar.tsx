@@ -18,6 +18,7 @@ interface SidebarProps {
   setIsOpen: (open: boolean) => void;
   sidebarWidth: number;
   setSidebarWidth: (width: number) => void;
+  userName: string;
 }
 
 export function AppSidebar({
@@ -25,6 +26,7 @@ export function AppSidebar({
   setIsOpen,
   sidebarWidth,
   setSidebarWidth,
+  userName,
 }: SidebarProps) {
   const sidebarRef = useRef<HTMLDivElement>(null);
   const isResizing = useRef(false);
@@ -156,7 +158,7 @@ export function AppSidebar({
           {sidebarWidth > 100 && (
             <div>
               <p className="text-sm font-semibold text-gray-900 dark:text-gray-100">
-                Angela White
+                {userName || "Angela White"}
               </p>
               <p className="text-xs text-gray-600 dark:text-gray-400">
                 angelawhite@gmail.com

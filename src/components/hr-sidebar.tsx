@@ -8,6 +8,7 @@ import {
     Headphones,
     ChevronLeft,
     TrendingUp,
+    UserRoundSearch,
   } from "lucide-react";
   import Link from "next/link";
   import Image from "next/image";
@@ -18,6 +19,7 @@ import {
     setIsOpen: (open: boolean) => void;
     sidebarWidth: number;
     setSidebarWidth: (width: number) => void;
+    userName: string;
   }
   
   export function AppSidebar({
@@ -25,6 +27,7 @@ import {
     setIsOpen,
     sidebarWidth,
     setSidebarWidth,
+    userName,
   }: SidebarProps) {
     const sidebarRef = useRef<HTMLDivElement>(null);
     const isResizing = useRef(false);
@@ -112,7 +115,7 @@ import {
                 icon: LayoutDashboard,
                 label: "Dashboard",
               },
-              { href: "/hr/hire", icon: FileText, label: "Hire" },
+              { href: "/hr/hire", icon: UserRoundSearch, label: "Hire" },
               { href: "/hr/rank", icon: TrendingUp, label: "Rank" },
               { href: "/hr/schedule", icon: Calendar, label: "Schedule" },
               { href: "/hr/profile", icon: Users, label: "Profile" },
@@ -156,7 +159,7 @@ import {
             {sidebarWidth > 100 && (
               <div>
                 <p className="text-sm font-semibold text-gray-900 dark:text-gray-100">
-                  Angela White
+                  {userName || "Angela White"}
                 </p>
                 <p className="text-xs text-gray-600 dark:text-gray-400">
                   angelawhite@gmail.com

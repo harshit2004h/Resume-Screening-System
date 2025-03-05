@@ -17,6 +17,19 @@ import {
 } from "@/src/components/ui/dialog";
 import { Input } from "@/src/components/ui/input";
 import { DashboardHeader } from "@/src/components/dashboard-header";
+// Added imports for both graphs
+import {
+  BarChart,
+  Bar,
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from "recharts";
 
 interface Task {
   id: number;
@@ -28,101 +41,22 @@ interface Column {
   items: Task[];
 }
 
-const performanceData = [
-  { name: "Jan", Team1: 65, Team2: 78, Team3: 82 },
-  { name: "Feb", Team1: 59, Team2: 80, Team3: 67 },
-  { name: "Mar", Team1: 80, Team2: 85, Team3: 79 },
-  { name: "Apr", Team1: 81, Team2: 72, Team3: 86 },
-  { name: "May", Team1: 56, Team2: 68, Team3: 75 },
-  { name: "Jun", Team1: 55, Team2: 65, Team3: 60 },
-  { name: "Jul", Team1: 67, Team2: 70, Team3: 73 },
-  { name: "Aug", Team1: 75, Team2: 82, Team3: 80 },
-]
+// Sample data for BarChart
+const sampleBarData = [
+  { name: "A", value: 12 },
+  { name: "B", value: 18 },
+  { name: "C", value: 8 },
+  { name: "D", value: 15 },
+];
 
-const attendanceData = [
-  { name: "Mon", present: 45, absent: 2, late: 3 },
-  { name: "Tue", present: 47, absent: 1, late: 2 },
-  { name: "Wed", present: 44, absent: 3, late: 3 },
-  { name: "Thu", present: 48, absent: 0, late: 2 },
-  { name: "Fri", present: 46, absent: 2, late: 2 },
-]
-
-const projectStatusData = [
-  { name: "Completed", value: 12, color: "#10b981" },
-  { name: "In Progress", value: 8, color: "#3b82f6" },
-  { name: "Delayed", value: 3, color: "#f59e0b" },
-  { name: "Not Started", value: 2, color: "#6b7280" },
-]
-
-const topPerformers = [
-  {
-    id: 1,
-    name: "Sarah Johnson",
-    role: "Senior Developer",
-    avatar: "/placeholder.svg?height=40&width=40",
-    performance: 98,
-    projects: 5,
-    status: "Active",
-  },
-  {
-    id: 2,
-    name: "Michael Chen",
-    role: "UX Designer",
-    avatar: "/placeholder.svg?height=40&width=40",
-    performance: 95,
-    projects: 4,
-    status: "Active",
-  },
-  {
-    id: 3,
-    name: "Emily Rodriguez",
-    role: "Project Manager",
-    avatar: "/placeholder.svg?height=40&width=40",
-    performance: 92,
-    projects: 3,
-    status: "Active",
-  },
-  {
-    id: 4,
-    name: "David Kim",
-    role: "Backend Developer",
-    avatar: "/placeholder.svg?height=40&width=40",
-    performance: 90,
-    projects: 4,
-    status: "On Leave",
-  },
-]
-
-const recentActivities = [
-  {
-    id: 1,
-    employee: "Alex Morgan",
-    action: "Completed task",
-    item: "API Integration",
-    time: "10 minutes ago",
-  },
-  {
-    id: 2,
-    employee: "Jessica Lee",
-    action: "Submitted report",
-    item: "Q3 Performance",
-    time: "1 hour ago",
-  },
-  {
-    id: 3,
-    employee: "Ryan Patel",
-    action: "Requested approval",
-    item: "New Feature Design",
-    time: "2 hours ago",
-  },
-  {
-    id: 4,
-    employee: "Sophia Williams",
-    action: "Marked as complete",
-    item: "Client Meeting",
-    time: "3 hours ago",
-  },
-]
+// Sample data for LineChart
+const sampleLineData = [
+  { name: "Jan", value: 30 },
+  { name: "Feb", value: 20 },
+  { name: "Mar", value: 27 },
+  { name: "Apr", value: 23 },
+  { name: "May", value: 34 },
+];
 
 export default function DashboardPage() {
   const [columns, setColumns] = useState<Column[]>([
@@ -168,8 +102,39 @@ export default function DashboardPage() {
   return (
     <div className="min-h-[60vh] min-w-[80vw] flex flex-col p-6">
       <DashboardHeader />
+      
+      {/* New Section: Graphs */}
+      <div className="flex flex-row gap-4 mt-10">
+        <div className="w-1/2 bg-white dark:bg-gray-800 p-4 rounded">
+          <h2 className="text-xl font-semibold mb-4">Line Chart</h2>
+          <ResponsiveContainer width="100%" height={300}>
+            <LineChart data={sampleLineData}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="name" />
+              <YAxis />
+              <Tooltip />
+              <Legend />
+              <Line type="monotone" dataKey="value" stroke="#60a5fa" />
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
+        <div className="w-1/2 bg-white dark:bg-gray-800 p-4 rounded">
+          <h2 className="text-xl font-semibold mb-4">Bar Chart</h2>
+          <ResponsiveContainer width="100%" height={300}>
+            <BarChart data={sampleBarData}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="name" />
+              <YAxis />
+              <Tooltip />
+              <Legend />
+              <Bar dataKey="value" fill="#34d399" />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+      </div>
+      
       {/* Kanban Board */}
-      <div className="grid grid-cols-4 gap-4 w-full mt-5">
+      <div className="grid grid-cols-4 gap-4 w-full mt-10">
         {columns.map((column, index) => (
           <Card
             key={column.title}
