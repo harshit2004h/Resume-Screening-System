@@ -36,11 +36,12 @@ export default function RootLayout({
             setIsOpen={setIsSidebarOpen}
             sidebarWidth={sidebarWidth}
             setSidebarWidth={setSidebarWidth}
+            userName={user}
           />
 
           {/* Main content container */}
           <div
-            className="flex flex-col flex-1 transition-all ease-in-out"
+            className="flex flex-col flex-1 transition-all ease-in-out overflow-y-auto"
             style={{
               marginLeft: isSidebarOpen ? sidebarWidth : 72,
             }}
@@ -49,7 +50,7 @@ export default function RootLayout({
             <Header isSidebarOpen={isSidebarOpen} sidebarWidth={sidebarWidth} userName={user} />
 
             {/* Main content area */}
-            <main className="flex-1 overflow-y-auto p-6">{children}</main>
+            <main className="flex-1 p-6">{children}</main>
           </div>
         </div>
       </body>

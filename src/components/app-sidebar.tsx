@@ -18,6 +18,7 @@ interface SidebarProps {
   setIsOpen: (open: boolean) => void;
   sidebarWidth: number;
   setSidebarWidth: (width: number) => void;
+  userName: string;
 }
 
 export function AppSidebar({
@@ -25,6 +26,7 @@ export function AppSidebar({
   setIsOpen,
   sidebarWidth,
   setSidebarWidth,
+  userName,
 }: SidebarProps) {
   const sidebarRef = useRef<HTMLDivElement>(null);
   const isResizing = useRef(false);
@@ -66,6 +68,22 @@ export function AppSidebar({
     document.body.style.userSelect = "";
   };
 
+  const links = [
+    { href: `/u/${userName}/dashboard`, icon: LayoutDashboard, label: "Dashboard" },
+    { href: `/u/${userName}/resume`, icon: FileText, label: "Resume" },
+    { href: `/u/${userName}/rank`, icon: TrendingUp, label: "Rank" },
+    { href: `/u/${userName}/schedule`, icon: Calendar, label: "Schedule" },
+    { href: `/u/${userName}/profile`, icon: Users, label: "Profile" },
+    { href: `/u/${userName}/settings`, icon: Settings, label: "Settings" },
+    { href: `/u/${userName}/support`, icon: Headphones, label: "Support" },
+    { 
+      href: `/u/${userName}/logout`, 
+      icon: LogOut, 
+      label: "Logout", 
+      className: "text-red-500 dark:text-red-400" 
+    },
+  ];
+
   return (
     <aside
       ref={sidebarRef}
@@ -74,12 +92,6 @@ export function AppSidebar({
         width: isOpen ? sidebarWidth : collapsedWidth,
       }}
     >
-      {/* Dark Mode Background */}
-      <div className="absolute inset-0 opacity-100 dark:bg-black">
-        <div className="absolute bottom-0 left-0 right-0 top-0 dark:bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-none" />
-        <div className="absolute left-0 right-0 top-[-10%] h-[1000px] w-[1000px] rounded-full dark:bg-[radial-gradient(circle_400px_at_50%_300px,#fbfbfb36,#000)]" />
-      </div>
-
       <div className="relative flex items-center justify-between h-16 px-4 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-black">
         {sidebarWidth > 100 && (
           <h1 className="text-xl font-bold opacity-100 transition-opacity duration-200 text-gray-900 dark:text-gray-100">
@@ -106,37 +118,13 @@ export function AppSidebar({
 
       <nav className="relative flex-1 mt-4 overflow-hidden">
         <ul className="space-y-1 px-4">
-          {[
-            {
-              href: "/user/dashboard",
-              icon: LayoutDashboard,
-              label: "Dashboard",
-            },
-            { href: "/user/resume", icon: FileText, label: "Resume" },
-            { href: "/user/rank", icon: TrendingUp, label: "Rank" },
-            { href: "/user/schedule", icon: Calendar, label: "Schedule" },
-            { href: "/user/profile", icon: Users, label: "Profile" },
-            { href: "/user/settings", icon: Settings, label: "Settings" },
-            { href: "/user/support", icon: Headphones, label: "Support" },
-            {
-              href: "/user/logout",
-              icon: LogOut,
-              label: "Logout",
-              className: "text-red-500 dark:text-red-400",
-            },
-          ].map(({ href, icon: Icon, label, className }) => (
+          {links.map(({ href, icon: Icon, label, className }) => (
             <li key={href}>
               <Link
                 href={href}
                 className={`flex items-center p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition ${className || "text-gray-900 dark:text-gray-300"}`}
               >
-                <Icon
-                  className={`w-6 h-6 min-w-[24px] ${
-                    href === "/logout"
-                      ? "text-red-500 dark:text-red-400"
-                      : "text-gray-900 dark:text-gray-300"
-                  }`}
-                />
+                <Icon className="w-6 h-6 min-w-[24px]" />
                 {sidebarWidth > 100 && <span className="ml-3">{label}</span>}
               </Link>
             </li>
@@ -156,7 +144,7 @@ export function AppSidebar({
           {sidebarWidth > 100 && (
             <div>
               <p className="text-sm font-semibold text-gray-900 dark:text-gray-100">
-                Angela White
+                {userName}
               </p>
               <p className="text-xs text-gray-600 dark:text-gray-400">
                 angelawhite@gmail.com
