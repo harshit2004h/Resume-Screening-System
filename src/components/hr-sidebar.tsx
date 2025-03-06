@@ -111,18 +111,18 @@ import {
           <ul className="space-y-1 px-4">
             {[
               {
-                href: "/hr/dashboard",
+                href: "/h/hr/dashboard",
                 icon: LayoutDashboard,
                 label: "Dashboard",
               },
-              { href: "/hr/hire", icon: UserRoundSearch, label: "Hire" },
-              { href: "/hr/rank", icon: TrendingUp, label: "Rank" },
-              { href: "/hr/schedule", icon: Calendar, label: "Schedule" },
-              { href: "/hr/profile", icon: Users, label: "Profile" },
-              { href: "/hr/settings", icon: Settings, label: "Settings" },
-              { href: "/hr/support", icon: Headphones, label: "Support" },
+              { href: "/h/hr/hire", icon: UserRoundSearch, label: "Hire" },
+              { href: "/h/hr/rank", icon: TrendingUp, label: "Rank" },
+              { href: "/h/hr/schedule", icon: Calendar, label: "Schedule" },
+              { href: "/h/hr/profile", icon: Users, label: "Profile" },
+              { href: "/h/hr/settings", icon: Settings, label: "Settings" },
+              { href: "/h/hr/support", icon: Headphones, label: "Support" },
               {
-                href: "/hr/logout",
+                href: "/h/hr/logout",
                 icon: LogOut,
                 label: "Logout",
                 className: "text-red-500 dark:text-red-400",

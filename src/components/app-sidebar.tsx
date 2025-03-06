@@ -144,11 +144,8 @@ export function AppSidebar({
           {sidebarWidth > 100 && (
             <div>
               <p className="text-sm font-semibold text-gray-900 dark:text-gray-100">
-<<<<<<< HEAD
                 {userName}
-=======
                 {userName || "Angela White"}
->>>>>>> 390014536ec939e68be340c7a67d29821d97e457
               </p>
               <p className="text-xs text-gray-600 dark:text-gray-400">
                 angelawhite@gmail.com
