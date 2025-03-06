@@ -21,20 +21,30 @@ type Interview = {
   id: string;
   date: Date;
   title: string;
+  time: string; // Add time field
 };
 
 export default function SchedulePage() {
   const [date, setDate] = useState<Date | undefined>(new Date());
   const [interviews, setInterviews] = useState<Interview[]>([]);
   const [newInterview, setNewInterview] = useState<string>("");
+  const [newInterviewTime, setNewInterviewTime] = useState<string>(""); // State for time input
+  const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false); // State to control dialog open/close
 
   const addInterview = () => {
-    if (date && newInterview) {
+    if (date && newInterview && newInterviewTime) {
       setInterviews([
         ...interviews,
-        { id: Date.now().toString(), date: date, title: newInterview },
+        {
+          id: Date.now().toString(),
+          date: date,
+          title: newInterview,
+          time: newInterviewTime, // Include time in the interview object
+        },
       ]);
       setNewInterview("");
+      setNewInterviewTime(""); // Reset time input
+      setIsDialogOpen(false); // Close the dialog after adding the interview
     }
   };
 
@@ -46,74 +56,116 @@ export default function SchedulePage() {
     return interviews.some((interview) => isSameDay(interview.date, day));
   };
 
+  const handleKeyPress = (event: React.KeyboardEvent) => {
+    if (event.key === "Enter") {
+      addInterview(); // This will also close the dialog
+    }
+  };
+
   return (
-    <div className="flex h-full">
-      <div className="flex-1 p-4">
-        <Calendar
-          mode="single"
-          selected={date}
-          onSelect={setDate}
-          className="rounded-md border shadow"
-          modifiers={{ busy: isDateBusy }}
-          modifiersStyles={{
-            busy: {
-              backgroundColor: "rgba(220, 38, 38, 0.1)",
-              color: "#DC2626",
-              fontWeight: "bold",
-            },
-          }}
-        />
+    <div className="flex h-full p-12 gap-8">
+      <div className="flex-1 p-6 bg-white rounded-lg shadow-md flex flex-col items-center">
+        <h2 className="text-2xl font-bold mb-6 text-gray-800">
+          Schedule an Interview
+        </h2>
+        <div className="flex justify-center w-full">
+          <Calendar
+            mode="single"
+            selected={date}
+            onSelect={setDate}
+            className="rounded-md border shadow"
+            modifiers={{ busy: isDateBusy }}
+            modifiersStyles={{
+              busy: {
+                backgroundColor: "rgba(220, 38, 38, 0.1)",
+                color: "#DC2626",
+                fontWeight: "bold",
+              },
+            }}
+          />
+        </div>
       </div>
-      <div className="w-1/3 p-4 border-l">
-        <h2 className="text-2xl font-bold mb-4">
+      <div className="w-1/3 p-6 bg-white rounded-lg shadow-md">
+        <h2 className="text-2xl font-bold mb-6 text-gray-800">
           Interviews on {date ? format(date, "MMMM d, yyyy") : "Selected Date"}
         </h2>
-        <Dialog>
+        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild>
-            <Button className="mb-4">
+            <Button
+              className="mb-6 w-full bg-blue-600 hover:bg-blue-700 text-white"
+              onClick={() => setIsDialogOpen(true)} // Open the dialog
+            >
               <Plus className="mr-2 h-4 w-4" /> Add Interview
             </Button>
           </DialogTrigger>
-          <DialogContent className="sm:max-w-[425px]">
+          <DialogContent className="sm:max-w-[425px] bg-white rounded-lg shadow-md">
             <DialogHeader>
-              <DialogTitle>Add New Interview</DialogTitle>
-              <DialogDescription>
-                Enter the details for the new interview.
+              <DialogTitle className="text-xxl font-bold text-gray-800">
+                Add New Interview
+              </DialogTitle>
+              <DialogDescription className="text-gray-600">
+                Enter the details for the new interview:
               </DialogDescription>
             </DialogHeader>
-            <div className="grid gap-4 py-4">
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="name" className="text-right">
+            <div className="grid gap- py-4">
+              <div className="grid items-center gap-4">
+                <Label htmlFor="name" className="text-xl text-left text-gray-700">
                   Title
                 </Label>
                 <Input
                   id="name"
                   value={newInterview}
                   onChange={(e) => setNewInterview(e.target.value)}
-                  className="col-span-3"
+                  onKeyPress={handleKeyPress}
+                  className="grid-cols-8 col-span-3 h-10  w-full"
+                  placeholder="Enter interview title"
+                />
+              </div>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="time" className="text-xl text-left text-gray-700">
+                  Time
+                </Label>
+                <Input
+                  id="time"
+                  type="time"
+                  value={newInterviewTime}
+                  onChange={(e) => setNewInterviewTime(e.target.value)}
+                  className="col-span-3 h-10 w-full"
                 />
               </div>
             </div>
             <DialogFooter>
-              <Button type="submit" onClick={addInterview}>
+              <Button
+                type="submit"
+                onClick={addInterview}
+                className="bg-blue-600 hover:bg-blue-700 text-white"
+              >
                 Add Interview
               </Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>
-        <ul className="space-y-2">
+        <ul className="space-y-3 mt-6">
           {interviews
             .filter((interview) => date && isSameDay(interview.date, date))
             .map((interview) => (
               <li
                 key={interview.id}
-                className="flex justify-between items-center p-2 bg-secondary rounded-md"
+                className="flex justify-between items-center p-3 bg-gray-100 rounded-lg hover:bg-gray-150 transition-colors"
               >
-                <span>{interview.title}</span>
+                <div className="flex flex-col">
+                  <span className="text-sm text-gray-500">
+                    {format(interview.date, "MMMM d, yyyy")} at {interview.time}
+                  </span>
+                  <span className="text-gray-700 font-medium text-lg">
+                    {interview.title}
+                  </span>
+                </div>
                 <Button
                   variant="ghost"
                   size="sm"
                   onClick={() => removeInterview(interview.id)}
+                  className="text-red-600 hover:bg-red-50"
                 >
                   <Trash2 className="h-4 w-4" />
                 </Button>
