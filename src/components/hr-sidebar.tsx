@@ -118,7 +118,6 @@ import {
               { href: "/h/hr/hire", icon: UserRoundSearch, label: "Hire" },
               { href: "/h/hr/rank", icon: TrendingUp, label: "Rank" },
               { href: "/h/hr/schedule", icon: Calendar, label: "Schedule" },
-              { href: "/h/hr/profile", icon: Users, label: "Profile" },
               { href: "/h/hr/settings", icon: Settings, label: "Settings" },
               { href: "/h/hr/support", icon: Headphones, label: "Support" },
               {
