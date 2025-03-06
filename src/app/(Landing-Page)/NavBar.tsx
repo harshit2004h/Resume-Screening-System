@@ -86,7 +86,7 @@ function Navbar({}: { className?: string }) {
               className="relative w-12 h-7 flex items-center bg-gray-400 dark:bg-gray-800 rounded-full p-1 cursor-pointer shadow-md transition-all duration-150"
             >
               <div
-                className={`absolute w-6 h-6 bg-white dark:bg-yellow-400 rounded-full flex items-center justify-center transition-all duration-150 ${
+                className={`absolute w-5 h-5 bg-white dark:bg-yellow-400 rounded-full flex items-center justify-center transition-all duration-150 ${
                   darkMode ? "translate-x-5" : "translate-x-0"
                 }`}
               >
