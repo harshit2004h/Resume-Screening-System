@@ -20,7 +20,7 @@ const RoleSelection = () => {
     "hotmail.com",
   ];
 
-  const handleProceed = () => {
+  const handleProceed = async () => {
     if (!role) {
       setError("Please select a role.");
       return;
@@ -33,17 +33,25 @@ const RoleSelection = () => {
 
     const domain = userEmail.split("@")[1];
 
-    if (role === "Employee") {
-      router.push("/u/dashboard");
+    if (role === "Employer" && personalDomains.includes(domain)) {
+      setError("Login with an official email for Employer access.");
       return;
     }
 
-    if (personalDomains.includes(domain)) {
-      setError("Login with Official email for Employer Login");
-      return;
-    }
+    // Send role to the API for database storage
+    const response = await fetch("/api/auth/creation", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ role }),
+    });
 
-    router.push("/h/dashboard");
+    const data = await response.json();
+
+    if (response.ok) {
+      router.push(data.redirectUrl); // Redirect based on API response
+    } else {
+      setError(data.error || "Something went wrong");
+    }
   };
 
   return (
@@ -107,7 +115,7 @@ const RoleSelection = () => {
         {error && <p className="text-red-500 text-center mt-4">{error}</p>}
 
         <button
-          onClick={handleProceed} // 🚀 FIXED! Now Proceed works
+          onClick={handleProceed}
           className="mt-6 p-3 bg-blue-600 text-white rounded-lg w-full hover:bg-blue-700 transition-all duration-300 transform hover:scale-105 shadow-md"
           disabled={loading}
         >
