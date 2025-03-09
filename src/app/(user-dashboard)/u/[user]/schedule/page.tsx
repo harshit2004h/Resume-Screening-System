@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Plus, Trash2 } from "lucide-react";
-import { format, isSameDay } from "date-fns";
+import { format, isSameDay, isBefore, isAfter, addMinutes, differenceInMinutes } from "date-fns";
 import { Button } from "@/src/components/ui/button";
 import { Calendar } from "@/src/components/ui/calendar";
 import {
@@ -21,30 +21,95 @@ type Interview = {
   id: string;
   date: Date;
   title: string;
-  time: string; // Add time field
+  startTime: string; // Start time of the meeting
+  endTime: string; // End time of the meeting
 };
 
 export default function SchedulePage() {
   const [date, setDate] = useState<Date | undefined>(new Date());
   const [interviews, setInterviews] = useState<Interview[]>([]);
   const [newInterview, setNewInterview] = useState<string>("");
-  const [newInterviewTime, setNewInterviewTime] = useState<string>(""); // State for time input
+  const [newInterviewStartTime, setNewInterviewStartTime] = useState<string>(""); // Start time input
+  const [newInterviewEndTime, setNewInterviewEndTime] = useState<string>(""); // End time input
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false); // State to control dialog open/close
+  const [error, setError] = useState<string | null>(null); // State to handle error messages
+
+  const validateInterviewInterval = (newStartTime: string, newEndTime: string) => {
+    if (!date) return false;
+
+    const newStartDateTime = new Date(`${format(date, "yyyy-MM-dd")}T${newStartTime}`);
+    const newEndDateTime = new Date(`${format(date, "yyyy-MM-dd")}T${newEndTime}`);
+
+    // Ensure the end time is after the start time
+    if (isAfter(newStartDateTime, newEndDateTime)) {
+      setError("End time must be after start time.");
+      return false;
+    }
+
+    // Ensure the meeting duration is at least 30 minutes
+    const meetingDuration = differenceInMinutes(newEndDateTime, newStartDateTime);
+    if (meetingDuration < 30) {
+      setError("Meetings must be at least 30 minutes long.");
+      return false;
+    }
+
+    // Check for overlaps with existing meetings
+    const existingInterviewsOnSameDay = interviews.filter((interview) =>
+      isSameDay(interview.date, date)
+    );
+
+    for (const interview of existingInterviewsOnSameDay) {
+      const existingStartDateTime = new Date(
+        `${format(interview.date, "yyyy-MM-dd")}T${interview.startTime}`
+      );
+      const existingEndDateTime = new Date(
+        `${format(interview.date, "yyyy-MM-dd")}T${interview.endTime}`
+      );
+
+      // Check if the new meeting overlaps with an existing meeting
+      if (
+        (isAfter(newStartDateTime, existingStartDateTime) && isBefore(newStartDateTime, existingEndDateTime)) ||
+        (isAfter(newEndDateTime, existingStartDateTime) && isBefore(newEndDateTime, existingEndDateTime)) ||
+        (isBefore(newStartDateTime, existingStartDateTime) && isAfter(newEndDateTime, existingEndDateTime))
+      ) {
+        setError("This time interval overlaps with an existing meeting.");
+        return false;
+      }
+
+      // Ensure a 30-minute gap before and after the new meeting
+      const gapBefore = differenceInMinutes(newStartDateTime, existingEndDateTime);
+      const gapAfter = differenceInMinutes(existingStartDateTime, newEndDateTime);
+
+      if (gapBefore < 30 || gapAfter < 30) {
+        setError("There must be a 30-minute gap between meetings.");
+        return false;
+      }
+    }
+
+    setError(null);
+    return true;
+  };
 
   const addInterview = () => {
-    if (date && newInterview && newInterviewTime) {
+    if (date && newInterview && newInterviewStartTime && newInterviewEndTime) {
+      if (!validateInterviewInterval(newInterviewStartTime, newInterviewEndTime)) {
+        return;
+      }
+
       setInterviews([
         ...interviews,
         {
           id: Date.now().toString(),
           date: date,
           title: newInterview,
-          time: newInterviewTime, // Include time in the interview object
+          startTime: newInterviewStartTime,
+          endTime: newInterviewEndTime,
         },
       ]);
       setNewInterview("");
-      setNewInterviewTime(""); // Reset time input
-      setIsDialogOpen(false); // Close the dialog after adding the interview
+      setNewInterviewStartTime("");
+      setNewInterviewEndTime("");
+      setIsDialogOpen(false);
     }
   };
 
@@ -58,7 +123,7 @@ export default function SchedulePage() {
 
   const handleKeyPress = (event: React.KeyboardEvent) => {
     if (event.key === "Enter") {
-      addInterview(); // This will also close the dialog
+      addInterview();
     }
   };
 
@@ -93,23 +158,24 @@ export default function SchedulePage() {
           <DialogTrigger asChild>
             <Button
               className="mb-6 w-full bg-blue-600 hover:bg-blue-700 text-white"
-              onClick={() => setIsDialogOpen(true)} // Open the dialog
+              onClick={() => setIsDialogOpen(true)}
             >
               <Plus className="mr-2 h-4 w-4" /> Add Interview
             </Button>
           </DialogTrigger>
           <DialogContent className="sm:max-w-[425px] bg-white rounded-lg shadow-md">
             <DialogHeader>
-              <DialogTitle className="text-xxl font-bold text-gray-800">
+              <DialogTitle className="text-2xl font-bold text-gray-800 text-center">
                 Add New Interview
               </DialogTitle>
-              <DialogDescription className="text-gray-600">
+              <DialogDescription className="text-gray-600 text-center">
                 Enter the details for the new interview:
               </DialogDescription>
             </DialogHeader>
-            <div className="grid gap- py-4">
-              <div className="grid items-center gap-4">
-                <Label htmlFor="name" className="text-xl text-left text-gray-700">
+            <div className="space-y-6 py-4">
+              {/* Title Input */}
+              <div className="space-y-2">
+                <Label htmlFor="name" className="text-lg font-semibold text-gray-800">
                   Title
                 </Label>
                 <Input
@@ -117,28 +183,63 @@ export default function SchedulePage() {
                   value={newInterview}
                   onChange={(e) => setNewInterview(e.target.value)}
                   onKeyPress={handleKeyPress}
-                  className="grid-cols-8 col-span-3 h-10  w-full"
+                  className="w-full h-11 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   placeholder="Enter interview title"
                 />
               </div>
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="time" className="text-xl text-left text-gray-700">
-                  Time
-                </Label>
-                <Input
-                  id="time"
-                  type="time"
-                  value={newInterviewTime}
-                  onChange={(e) => setNewInterviewTime(e.target.value)}
-                  className="col-span-3 h-10 w-full"
-                />
+
+              {/* Start and End Time Inputs */}
+              <div className="grid grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <Label htmlFor="startTime" className="text-lg font-semibold text-gray-800">
+                    Start Time
+                  </Label>
+                  <Input
+                    id="startTime"
+                    type="time"
+                    value={newInterviewStartTime}
+                    onChange={(e) => setNewInterviewStartTime(e.target.value)}
+                    className="w-full h-11 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="endTime" className="text-lg font-semibold text-gray-800">
+                    End Time
+                  </Label>
+                  <Input
+                    id="endTime"
+                    type="time"
+                    value={newInterviewEndTime}
+                    onChange={(e) => setNewInterviewEndTime(e.target.value)}
+                    className="w-full h-11 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  />
+                </div>
               </div>
+
+              {/* Error Message */}
+              {error && (
+                <div className="text-sm text-red-600 font-medium mt-2 flex items-center gap-2 justify-center">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-4 w-4"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                  {error}
+                </div>
+              )}
             </div>
             <DialogFooter>
               <Button
                 type="submit"
                 onClick={addInterview}
-                className="bg-blue-600 hover:bg-blue-700 text-white"
+                className="w-full h-11 px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
               >
                 Add Interview
               </Button>
@@ -155,7 +256,7 @@ export default function SchedulePage() {
               >
                 <div className="flex flex-col">
                   <span className="text-sm text-gray-500">
-                    {format(interview.date, "MMMM d, yyyy")} at {interview.time}
+                    {format(interview.date, "MMMM d, yyyy")} from {interview.startTime} to {interview.endTime}
                   </span>
                   <span className="text-gray-700 font-medium text-lg">
                     {interview.title}
