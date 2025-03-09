@@ -7,32 +7,39 @@ import Footer from "@/src/components/Footer";
 
 const instructors = [
   {
-    name: "John Doe",
-    role: "Senior Developer @Google",
+    name: "Ginish Garg",
+    role: "Backend Developer",
     description:
-      "John specializes in AI and Web Development with over 5 years of experience.",
-    image: "/placeholder.png",
+      "Expert in backend development, specializing in scalable APIs, database management, and system architecture.",
+    image: "/assets/Ginish.png",
   },
   {
-    name: "Jane Smith",
-    role: "Software Engineer @Meta",
+    name: "Harshit Srivastava",
+    role: "Backend Developer",
     description:
-      "Jane is a full-stack developer passionate about helping students break into tech.",
-    image: "/placeholder.png",
+      "Focuses on building efficient backend systems, optimizing databases, and ensuring smooth server-side operations.",
+    image: "/assets/Harshit.jpg",
   },
   {
-    name: "Alice Johnson",
-    role: "Lead Engineer @Microsoft",
+    name: "Kavya Sharma",
+    role: "Frontend Developer",
     description:
-      "Alice has been working in cloud computing and distributed systems for 7 years.",
-    image: "/placeholder.png",
+      "Passionate about crafting interactive user interfaces, responsive designs, and delivering seamless web experiences.",
+    image: "/assets/Kavya.png",
   },
   {
-    name: "Bob Williams",
-    role: "Tech Lead @Amazon",
+    name: "Piyush Goyal",
+    role: "Frontend Developer",
     description:
-      "Bob specializes in scalable architectures and cloud-based services.",
-    image: "/placeholder.png",
+      "Specializes in modern frontend technologies, ensuring optimal user experience through intuitive design and performance optimization.",
+    image: "/assets/Piyush.png",
+  },
+  {
+    name: "Parth Tandon",
+    role: "Machine Learning Engineer",
+    description:
+      "Works on developing machine learning models, optimizing AI algorithms, and implementing data-driven solutions.",
+    image: "/assets/Parth.png",
   },
 ];
 
