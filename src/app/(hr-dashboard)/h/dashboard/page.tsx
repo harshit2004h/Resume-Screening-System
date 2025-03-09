@@ -1,21 +1,5 @@
 "use client";
 import { useState } from "react";
-import { Plus } from "lucide-react";
-import { Button } from "@/src/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/src/components/ui/card";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
-} from "@/src/components/ui/dialog";
-import { Input } from "@/src/components/ui/input";
 import { DashboardHeader } from "@/src/components/hr-dashboard-header";
 // Added imports for both graphs
 import {

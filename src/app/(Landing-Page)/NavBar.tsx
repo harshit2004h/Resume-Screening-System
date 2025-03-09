@@ -4,7 +4,6 @@ import Image from "next/image";
 import Link from "next/link";
 import Dropdown from "./ui/dropdown";
 import { ShinyButton } from "@/src/components/magicui/shiny-button";
-import { ShimmerButton } from "@/src/components/magicui/shimmer-button";
 import { Moon, Sun, Menu, X } from "lucide-react";
 
 function Navbar({}: { className?: string }) {
@@ -100,15 +99,8 @@ function Navbar({}: { className?: string }) {
 
             {/* Buttons - hidden in mobile */}
             <div className="hidden md:flex gap-3">
-              <Link href="/login">
-                <ShinyButton>Login</ShinyButton>
-              </Link>
-              <Link href="/signup">
-                <ShimmerButton className="shadow-2xl">
-                  <span className="whitespace-pre-wrap text-center text-sm leading-none tracking-tight text-white dark:text-black dark:from-white dark:to-slate-900/10 lg:text-m font-bold">
-                    Sign Up
-                  </span>
-                </ShimmerButton>
+              <Link href="/auth">
+                <ShinyButton>Login / Register</ShinyButton>
               </Link>
             </div>
 
@@ -151,13 +143,8 @@ function Navbar({}: { className?: string }) {
             >
               About Us
             </Link>
-            <Link href="/login" onClick={() => setMenuOpen(false)}>
-              <ShinyButton className="w-full text-center">Login</ShinyButton>
-            </Link>
-            <Link href="/signup" onClick={() => setMenuOpen(false)}>
-              <ShimmerButton className="w-full text-center shadow-2xl">
-                Sign Up
-              </ShimmerButton>
+            <Link href="/auth" onClick={() => setMenuOpen(false)}>
+              <ShinyButton className="w-full text-center">Register</ShinyButton>
             </Link>
           </div>
         )}

@@ -12,13 +12,17 @@ import {
 import Link from "next/link";
 import Image from "next/image";
 import { useRef } from "react";
+import { LogoutLink } from "@kinde-oss/kinde-auth-nextjs/components";
 
 interface SidebarProps {
   isOpen: boolean;
   setIsOpen: (open: boolean) => void;
   sidebarWidth: number;
   setSidebarWidth: (width: number) => void;
-  userName: string;
+  givenName: string;
+  familyName: string;
+  email: string;
+  picture: string;
 }
 
 export function AppSidebar({
@@ -26,7 +30,10 @@ export function AppSidebar({
   setIsOpen,
   sidebarWidth,
   setSidebarWidth,
-  userName,
+  givenName,
+  familyName,
+  email,
+  picture,
 }: SidebarProps) {
   const sidebarRef = useRef<HTMLDivElement>(null);
   const isResizing = useRef(false);
@@ -55,7 +62,7 @@ export function AppSidebar({
     if (isResizing.current) {
       const newWidth = Math.min(
         Math.max(event.clientX, minSidebarWidth),
-        maxSidebarWidth,
+        maxSidebarWidth
       );
       setSidebarWidth(newWidth);
     }
@@ -69,20 +76,17 @@ export function AppSidebar({
   };
 
   const links = [
-    { href: `/u/${userName}/dashboard`, icon: LayoutDashboard, label: "Dashboard" },
-    { href: `/u/${userName}/resume`, icon: FileText, label: "Resume" },
-    { href: `/u/${userName}/rank`, icon: TrendingUp, label: "Rank" },
-    { href: `/u/${userName}/schedule`, icon: Calendar, label: "Schedule" },
-    { href: `/u/${userName}/profile`, icon: Users, label: "Profile" },
-    { href: `/u/${userName}/settings`, icon: Settings, label: "Settings" },
-    { href: `/u/${userName}/support`, icon: Headphones, label: "Support" },
-    { 
-      href: `/u/${userName}/logout`, 
-      icon: LogOut, 
-      label: "Logout", 
-      className: "text-red-500 dark:text-red-400" 
-    },
+    { href: `/u/dashboard`, icon: LayoutDashboard, label: "Dashboard" },
+    { href: `/u/resume`, icon: FileText, label: "Resume" },
+    { href: `/u/rank`, icon: TrendingUp, label: "Rank" },
+    { href: `/u/schedule`, icon: Calendar, label: "Schedule" },
+    { href: `/u/profile`, icon: Users, label: "Profile" },
+    { href: `/u/settings`, icon: Settings, label: "Settings" },
+    { href: `/u/support`, icon: Headphones, label: "Support" },
   ];
+
+  // Ensure the image URL is properly formatted, and provide a fallback
+  const profilePic = picture && picture.startsWith("http") ? picture : "/avatar.png";
 
   return (
     <aside
@@ -118,36 +122,43 @@ export function AppSidebar({
 
       <nav className="relative flex-1 mt-4 overflow-hidden">
         <ul className="space-y-1 px-4">
-          {links.map(({ href, icon: Icon, label, className }) => (
+          {links.map(({ href, icon: Icon, label }) => (
             <li key={href}>
               <Link
                 href={href}
-                className={`flex items-center p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition ${className || "text-gray-900 dark:text-gray-300"}`}
+                className="flex items-center p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition"
               >
                 <Icon className="w-6 h-6 min-w-[24px]" />
                 {sidebarWidth > 100 && <span className="ml-3">{label}</span>}
               </Link>
             </li>
           ))}
+          <li>
+            <LogoutLink className="flex items-center p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition text-red-500 dark:text-red-400">
+              <LogOut className="w-6 h-6 min-w-[24px]" />
+              {sidebarWidth > 100 && <span className="ml-3">Logout</span>}
+            </LogoutLink>
+          </li>
         </ul>
       </nav>
 
+      {/* User Info Section */}
       <div className="relative mt-auto p-4 space-y-3 border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-black">
         <div className="flex items-center space-x-3">
           <Image
-            src="/avatar.png"
+            src={profilePic}
             alt="User"
             width={40}
             height={40}
-            className="rounded-full"
+            className="rounded-full object-cover"
           />
           {sidebarWidth > 100 && (
             <div>
               <p className="text-sm font-semibold text-gray-900 dark:text-gray-100">
-                {userName || "Angela White"}
+                {givenName} {familyName}
               </p>
-              <p className="text-xs text-gray-600 dark:text-gray-400">
-                angelawhite@gmail.com
+              <p className="text-xs text-gray-600 dark:text-gray-400 truncate w-40">
+                {email}
               </p>
             </div>
           )}

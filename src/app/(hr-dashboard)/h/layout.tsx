@@ -1,11 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useTransition } from "react";
 import { Inter } from "next/font/google";
-import { useParams } from "next/navigation";
-import { AppSidebar } from "@/src/components/hr-sidebar";
+import { HrSidebar } from "@/src/components/hr-sidebar";
 import { Header } from "@/src/components/header";
 import type React from "react";
+import { fetchUser } from "./getUser";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,8 +16,20 @@ export default function RootLayout({
 }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [sidebarWidth, setSidebarWidth] = useState(256); // Default sidebar width
-  const params = useParams();
-  const hr = Array.isArray(params.hr) ? params.hr[0] : params.hr;
+  const [user, setUser] = useState({
+    given_name: "User",
+    family_name: "",
+    email: "",
+    picture: "",
+  });
+  const [isPending, startTransition] = useTransition();
+
+  useEffect(() => {
+    startTransition(async () => {
+      const fetchedUser = await fetchUser();
+      setUser(fetchedUser);
+    });
+  }, []);
 
   return (
     <html lang="en">
@@ -31,26 +43,35 @@ export default function RootLayout({
 
         <div className="flex h-screen overflow-hidden">
           {/* Sidebar */}
-          <AppSidebar
+          <HrSidebar
             isOpen={isSidebarOpen}
             setIsOpen={setIsSidebarOpen}
             sidebarWidth={sidebarWidth}
             setSidebarWidth={setSidebarWidth}
-            userName={hr}
+            givenName={user.given_name}
+            familyName={user.family_name}
+            picture={user.picture} 
+            email={user.email}
           />
 
           {/* Main content container */}
           <div
-            className="flex flex-col flex-1 transition-all ease-in-out"
+            className="flex flex-col flex-1 transition-all ease-in-out overflow-y-auto"
             style={{
               marginLeft: isSidebarOpen ? sidebarWidth : 72,
             }}
           >
             {/* Navbar (adjusts width dynamically) */}
-            <Header isSidebarOpen={isSidebarOpen} sidebarWidth={sidebarWidth} userName={hr} />
+            <Header
+              isSidebarOpen={isSidebarOpen}
+              sidebarWidth={sidebarWidth}
+              givenName={user.given_name}
+              familyName={user.family_name}
+              picture={user.picture} 
+            />
 
             {/* Main content area */}
-            <main className="flex-1 overflow-y-auto p-6">{children}</main>
+            <main className="flex-1 p-6">{children}</main>
           </div>
         </div>
       </body>

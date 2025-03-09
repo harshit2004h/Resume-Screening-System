@@ -10,14 +10,23 @@ import {
 import { Input } from "@/src/components/ui/input";
 import Image from "next/image";
 import Link from "next/link";
+import { LogoutLink } from "@kinde-oss/kinde-auth-nextjs/components";
 
 interface HeaderProps {
   isSidebarOpen: boolean;
   sidebarWidth: number;
-  userName: string;
+  givenName: string;
+  familyName: string;
+  picture: string;
 }
 
-export function Header({ isSidebarOpen, sidebarWidth, userName }: HeaderProps) {
+export function Header({
+  isSidebarOpen,
+  sidebarWidth,
+  givenName,
+  familyName,
+  picture,
+}: HeaderProps) {
   const [darkMode, setDarkMode] = useState(false);
 
   useEffect(() => {
@@ -42,7 +51,7 @@ export function Header({ isSidebarOpen, sidebarWidth, userName }: HeaderProps) {
           Welcome,
         </span>
         <span className="text-lg font-medium text-gray-800 dark:text-gray-200">
-          {userName || "Angela White"}
+          {givenName} {familyName}
         </span>
       </div>
 
@@ -77,7 +86,7 @@ export function Header({ isSidebarOpen, sidebarWidth, userName }: HeaderProps) {
           </div>
         </div>
 
-        <Link href="/user/notifications">
+        <Link href="/notifications">
           <Button variant="ghost" size="icon">
             <Bell className="h-6 w-6 text-gray-700 dark:text-gray-300" />
           </Button>
@@ -88,26 +97,26 @@ export function Header({ isSidebarOpen, sidebarWidth, userName }: HeaderProps) {
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" size="icon">
               <Image
-                src="/avatar.png"
+                src={picture || "/avatar.png"}
                 alt="User Avatar"
                 width={36}
                 height={36}
-                className="rounded-full"
+                className="rounded-full object-cover"
               />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent
             align="end"
-            className="bg-white dark:bg-[#000000] shadow-lg rounded-lg w-36 border border-gray-200 dark:border-gray-700 dark:shadow-lg dark:ring-1 dark:ring-gray-700"
+            className="bg-white dark:bg-[#000000] shadow-lg rounded-lg w-40 border border-gray-200 dark:border-gray-700 dark:shadow-lg dark:ring-1 dark:ring-gray-700"
           >
             <DropdownMenuItem className="text-gray-800 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-150">
-              Profile
+              <Link href={"/u/profile"}>Profile</Link>
             </DropdownMenuItem>
             <DropdownMenuItem className="text-gray-800 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-150">
-              Settings
+              <Link href="/u/settings">Settings</Link>
             </DropdownMenuItem>
             <DropdownMenuItem className="text-red-500 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-500 dark:hover:text-black transition-all duration-150">
-              Sign out
+              <LogoutLink>Sign out</LogoutLink>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
