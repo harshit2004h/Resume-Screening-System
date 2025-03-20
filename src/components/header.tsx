@@ -101,7 +101,7 @@ export function Header({
                 alt="User Avatar"
                 width={36}
                 height={36}
-                className="rounded-full object-cover"
+                className="rounded-full object-cover border-black border-2"
               />
             </Button>
           </DropdownMenuTrigger>

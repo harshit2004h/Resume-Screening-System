@@ -73,11 +73,11 @@ const Login: React.FC = () => {
               </LoginLink>
               <LoginLink
                 authUrlParams={{
-                  connection_id: process.env.KINDE_CONNECTION_GITHUB || "",
+                  connection_id: process.env.KINDE_CONNECTION_MICROSOFT || "",
                 }}
               >
                 <Image
-                  src={"/github-brands.svg"}
+                  src={"/microsoft-brands.svg"}
                   width="15"
                   height="15"
                   alt="github"
