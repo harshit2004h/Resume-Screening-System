@@ -4,7 +4,9 @@ import Image from "next/image";
 import Link from "next/link";
 import Dropdown from "./ui/dropdown";
 import { ShinyButton } from "@/src/components/magicui/shiny-button";
+import { ShimmerButton } from "@/src/components/magicui/shimmer-button";
 import { Moon, Sun, Menu, X } from "lucide-react";
+import { LoginLink } from "@kinde-oss/kinde-auth-nextjs/components";
 
 function Navbar({}: { className?: string }) {
   const [darkMode, setDarkMode] = useState(false);
@@ -99,8 +101,11 @@ function Navbar({}: { className?: string }) {
 
             {/* Buttons - hidden in mobile */}
             <div className="hidden md:flex gap-3">
-              <Link href="/auth">
-                <ShinyButton>Login / Register</ShinyButton>
+              <LoginLink>
+                <ShinyButton>Login</ShinyButton>
+              </LoginLink>
+              <Link href="/signup-choice">
+                <ShimmerButton>Sign Up</ShimmerButton>
               </Link>
             </div>
 
@@ -118,7 +123,9 @@ function Navbar({}: { className?: string }) {
         {menuOpen && (
           <div
             className={`md:hidden fixed top-16 right-5 w-56 bg-white dark:bg-gray-900 shadow-lg rounded-lg p-4 flex flex-col gap-3 border transition-all duration-150 ${
-              darkMode ? "border-gray-700 text-white" : "border-gray-300 text-gray-900"
+              darkMode
+                ? "border-gray-700 text-white"
+                : "border-gray-300 text-gray-900"
             }`}
           >
             <Link
@@ -144,7 +151,12 @@ function Navbar({}: { className?: string }) {
               About Us
             </Link>
             <Link href="/auth" onClick={() => setMenuOpen(false)}>
-              <ShinyButton className="w-full text-center">Register</ShinyButton>
+              <ShinyButton className="w-full text-center">Login</ShinyButton>
+            </Link>
+            <Link href="/signup-choice" onClick={() => setMenuOpen(false)}>
+              <ShimmerButton className="w-full text-center">
+                Sign Up
+              </ShimmerButton>
             </Link>
           </div>
         )}
