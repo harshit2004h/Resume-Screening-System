@@ -4,11 +4,14 @@ import { motion, AnimatePresence } from "framer-motion";
 import { UploadDropzone } from "@/src/utils/uploadthing";
 import { CheckCircle } from "lucide-react";
 import Navbar from "../(Landing-Page)/NavBar";
+import { useResumeStore } from "@/src/store/resumeStore";
+import axios from "axios";
 
 const UploadResume = () => {
   const [showText, setShowText] = useState(true);
   const [fileUrl, setFileUrl] = useState<string | null>(null);
   const [uploadComplete, setUploadComplete] = useState(false);
+  const setPdfUrl = useResumeStore((state) => state.setPdfUrl);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -38,9 +41,22 @@ const UploadResume = () => {
                 <UploadDropzone
                   endpoint="imageUploader"
                   className="h-[300px] ut-label:text-green-800 ut-button:bg-green-600 ut-button:hover:bg-green-700 ut-upload-icon:text-green-600 ut-border-green-400 ut-bg-white/80 dark:ut-bg-gray-900"
-                  onClientUploadComplete={(res) => {
-                    setFileUrl(res[0].url);
+                  onClientUploadComplete={async (res) => {
+                    const url = res[0].ufsUrl;
+                    const name=res[0].name;
+                    setFileUrl(url);
                     setUploadComplete(true);
+                    setPdfUrl(url);
+
+                    try {
+                      //Send URL to Python backend
+                      await axios.post("http://localhost:8000/upload-url", {
+                        url: url,
+                        name: name,
+                      });
+                    } catch (error) {
+                      console.error("Error sending PDF URL to backend:", error);
+                    }
                   }}
                   onUploadError={(error: Error) => {
                     console.error("Upload error:", error.message);
@@ -75,6 +91,7 @@ const UploadResume = () => {
                 onClick={() => {
                   setUploadComplete(false);
                   setFileUrl(null);
+                  setPdfUrl(null); // ✅ Clear  global URL
                 }}
                 className="mt-6 w-full py-3 bg-green-600 text-white rounded-xl hover:bg-green-700 transition-all duration-300 shadow-md"
               >
@@ -116,4 +133,3 @@ const UploadResume = () => {
 };
 
 export default UploadResume;
-  

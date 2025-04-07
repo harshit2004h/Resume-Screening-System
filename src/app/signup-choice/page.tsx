@@ -1,10 +1,14 @@
-// app/signup-choice/page.tsx
 "use client";
-
 import { useEffect } from "react";
 import { ArrowLeft } from "lucide-react";
 import { RegisterLink } from "@kinde-oss/kinde-auth-nextjs/components";
 import Link from "next/link";
+import Cookies from "js-cookie";
+
+// Exported helper to check role from cookies
+export function isEmployee() {
+  return Cookies.get("user_role") === "employee";
+}
 
 export default function SignupChoice() {
   useEffect(() => {
@@ -16,6 +20,10 @@ export default function SignupChoice() {
       document.body.removeChild(script);
     };
   }, []);
+
+  const handleRoleSelect = (role: "employee" | "employer") => {
+    Cookies.set("user_role", role); // Session cookie (no expiry)
+  };
 
   return (
     <div className="min-h-screen w-full flex flex-col items-center justify-center bg-gradient-to-br from-green-50 via-white to-green-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 px-4 py-10 relative overflow-hidden">
@@ -32,7 +40,10 @@ export default function SignupChoice() {
         <div className="flex flex-col md:flex-row items-center justify-center gap-8">
           {/* Employee */}
           <RegisterLink>
-            <div className="cursor-pointer w-80 h-80 bg-white dark:bg-gray-800 shadow-2xl rounded-3xl flex flex-col items-center justify-center p-6 transition-all duration-300 hover:scale-105 hover:shadow-xl">
+            <div
+              onClick={() => handleRoleSelect("employee")}
+              className="cursor-pointer w-80 h-80 bg-white dark:bg-gray-800 shadow-2xl rounded-3xl flex flex-col items-center justify-center p-6 transition-all duration-300 hover:scale-105 hover:shadow-xl"
+            >
               <lord-icon
                 src="https://cdn.lordicon.com/eszyyflr.json"
                 trigger="hover"
@@ -47,7 +58,10 @@ export default function SignupChoice() {
 
           {/* Employer */}
           <RegisterLink>
-            <div className="cursor-pointer w-80 h-80 bg-white dark:bg-gray-800 shadow-2xl rounded-3xl flex flex-col items-center justify-center p-6 transition-all duration-300 hover:scale-105 hover:shadow-xl">
+            <div
+              onClick={() => handleRoleSelect("employer")}
+              className="cursor-pointer w-80 h-80 bg-white dark:bg-gray-800 shadow-2xl rounded-3xl flex flex-col items-center justify-center p-6 transition-all duration-300 hover:scale-105 hover:shadow-xl"
+            >
               <lord-icon
                 src="https://cdn.lordicon.com/nocovwne.json"
                 trigger="hover"
