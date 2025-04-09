@@ -123,10 +123,10 @@ export function HrSidebar({
               icon: LayoutDashboard,
               label: "Dashboard",
             },
-            { href: "/hhire", icon: UserRoundSearch, label: "Hire" },
+            { href: "/h/hire", icon: UserRoundSearch, label: "Hire" },
             { href: "/h/rank", icon: TrendingUp, label: "Rank" },
             { href: "/h/schedule", icon: Calendar, label: "Schedule" },
-            { href: "/hsettings", icon: Settings, label: "Settings" },
+            { href: "/h/settings", icon: Settings, label: "Settings" },
             { href: "/h/support", icon: Headphones, label: "Support" },
           ].map(({ href, icon: Icon, label }) => (
             <li key={href}>
