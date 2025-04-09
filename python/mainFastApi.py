@@ -1,9 +1,9 @@
-from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from pypdf import PdfReader
-import requests
-from io import BytesIO
+from textExtractor import extract_text_from_pdf_url, chunk_data
+from geminiAPI import get_gemini_embedding
+from langchain.schema import Document
 
 app = FastAPI()
 app.add_middleware(
@@ -25,19 +25,20 @@ async def receive_resume_url(data: ResumeURL):
     print("✅ PDF URL received:", data.url)
     print("✅ PDF Name received:", data.name)
 
-    response = requests.get(data.url)
-    pdf_file = BytesIO(response.content)
+    full_text = extract_text_from_pdf_url(data.url)
 
-    reader = PdfReader(pdf_file)
-    full_text = ""
-    for page in reader.pages:
-        extracted = page.extract_text()
-        if extracted:
-            full_text += extracted
+    # Wrap into Document object
+    documents = [Document(page_content=full_text)]
 
-    print("Full Extracted Text:\n", full_text)
+    # Split text into chunks
+    split_text = chunk_data(documents)
 
+    # Get Gemini embeddings
+    embeddings = get_gemini_embedding([chunk.page_content for chunk in split_text])
+
+    print("✅ Embeddings generated", embeddings)
     return {
-        "message": "PDF read and full text extracted successfully!",
-        "text": full_text,
+        "message": "Embeddings generated successfully!",
+        "chunks": [chunk.page_content for chunk in split_text],
+        "embeddings": embeddings,
     }

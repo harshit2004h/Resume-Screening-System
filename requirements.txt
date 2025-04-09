@@ -1,0 +1,15 @@
+fastapi
+uvicorn
+pydantic
+requests
+pypdf
+starlette
+numpy
+pandas
+langchain
+langchain-community
+python-dotenv
+google
+google-generativeai
+pinecone-client
+unstructured
