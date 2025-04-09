@@ -6,6 +6,7 @@ import { CheckCircle } from "lucide-react";
 import Navbar from "../(Landing-Page)/NavBar";
 import { useResumeStore } from "@/src/store/resumeStore";
 import axios from "axios";
+import { fetchUser } from "@/src/lib/getUser";
 
 const UploadResume = () => {
   const [showText, setShowText] = useState(true);
@@ -43,7 +44,9 @@ const UploadResume = () => {
                   className="h-[300px] ut-label:text-green-800 ut-button:bg-green-600 ut-button:hover:bg-green-700 ut-upload-icon:text-green-600 ut-border-green-400 ut-bg-white/80 dark:ut-bg-gray-900"
                   onClientUploadComplete={async (res) => {
                     const url = res[0].ufsUrl;
-                    const name=res[0].name;
+                    const name = res[0].name;
+                    const fetchedUser = await fetchUser();
+                    const email = fetchedUser.email;
                     setFileUrl(url);
                     setUploadComplete(true);
                     setPdfUrl(url);
@@ -53,6 +56,7 @@ const UploadResume = () => {
                       await axios.post("http://localhost:8000/upload-url", {
                         url: url,
                         name: name,
+                        email: email,
                       });
                     } catch (error) {
                       console.error("Error sending PDF URL to backend:", error);

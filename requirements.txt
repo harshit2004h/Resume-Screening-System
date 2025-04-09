@@ -11,5 +11,5 @@ langchain-community
 python-dotenv
 google
 google-generativeai
-pinecone-client
+pinecone
 unstructured

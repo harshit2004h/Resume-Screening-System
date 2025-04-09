@@ -10,7 +10,7 @@ genai.configure(api_key=api_key)
 
 
 def get_gemini_embedding(text_list):
-    embeddings = []
+    embeddings = [] 
     for text in text_list:
         response = genai.embed_content(
             model="models/embedding-001",

@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from textExtractor import extract_text_from_pdf_url, chunk_data
 from geminiAPI import get_gemini_embedding
+from pineconeClient import upsert_to_pinecone
 from langchain.schema import Document
 
 app = FastAPI()
@@ -18,27 +19,26 @@ app.add_middleware(
 class ResumeURL(BaseModel):
     url: str
     name: str
+    email: str
 
 
 @app.post("/upload-url")
 async def receive_resume_url(data: ResumeURL):
     print("✅ PDF URL received:", data.url)
-    print("✅ PDF Name received:", data.name)
+    print("✅ Name received:", data.name)
+    print("✅ Email received:", data.email)
 
     full_text = extract_text_from_pdf_url(data.url)
-
-    # Wrap into Document object
     documents = [Document(page_content=full_text)]
-
-    # Split text into chunks
     split_text = chunk_data(documents)
+    chunks = [chunk.page_content for chunk in split_text]
 
-    # Get Gemini embeddings
-    embeddings = get_gemini_embedding([chunk.page_content for chunk in split_text])
+    embeddings = get_gemini_embedding(chunks)
 
-    print("✅ Embeddings generated", embeddings)
+    upsert_to_pinecone(chunks, embeddings, data.email)
+
     return {
-        "message": "Embeddings generated successfully!",
-        "chunks": [chunk.page_content for chunk in split_text],
+        "message": "Embeddings generated and stored successfully!",
+        "chunks": chunks,
         "embeddings": embeddings,
     }
