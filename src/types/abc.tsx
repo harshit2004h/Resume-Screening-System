@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { UploadDropzone } from "@/src/utils/uploadthing";
 import { CheckCircle } from "lucide-react";
-import Navbar from "../(Landing-Page)/NavBar";
+import Navbar from "../app/(Landing-Page)/NavBar";
 import { useResumeStore } from "@/src/store/resumeStore";
 import axios from "axios";
 import { fetchUser } from "@/src/lib/getUser";
@@ -99,7 +99,7 @@ const UploadResume = () => {
                 onClick={async () => {
                   try {
                     if (fileKey) {
-                      await axios.post("/api/delete-uploadthing-file", {
+                      await axios.post("../api/delete-uploadthing-file", {
                         key: fileKey,
                       });
                     }

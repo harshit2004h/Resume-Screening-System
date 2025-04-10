@@ -33,7 +33,7 @@ export default function PostLogin() {
           router.replace("/h/dashboard");
         }
       } else if (role === "employee") {
-        router.replace("/u/dashboard");
+        router.replace("/upload-resume"); // <-- updated line
       } else {
         router.replace("/unauthorized");
       }
