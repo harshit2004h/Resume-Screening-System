@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader } from "@/src/components/ui/card";
 import { Input } from "@/src/components/ui/input";
 import { Label } from "@/src/components/ui/label";
 import { Avatar, AvatarFallback, AvatarImage } from "@/src/components/ui/avatar";
-import { Edit, Check, X, Key } from "lucide-react";
+import { Edit, Check, X, Key, Shield, User, Globe } from "lucide-react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -68,17 +68,21 @@ export default function ProfilePage() {
 
   return (
     <div className="px-8 py-12 max-w-3xl mx-auto">
+      {/* Background decorative elements */}
+      <div className="absolute top-20 right-10 w-64 h-64 bg-purple-100/30 dark:bg-purple-900/10 rounded-full filter blur-3xl -z-10"></div>
+      <div className="absolute bottom-20 left-10 w-64 h-64 bg-green-100/30 dark:bg-green-900/10 rounded-full filter blur-3xl -z-10"></div>
+      
       {/* Heading */}
-      <h1 className="text-2xl font-bold text-gray-800 mb-6">Profile Settings</h1>
+      <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-purple-800 dark:from-purple-400 dark:to-purple-600 bg-clip-text text-transparent mb-6">Profile Settings</h1>
 
       {/* Card */}
       <div className="mt-8">
-        <Card className="bg-gray-100 shadow-lg border border-gray-300">
-          <CardHeader className="border-b p-6 bg-gray-200">
+        <Card className="bg-white dark:bg-gray-900 shadow-md border border-gray-200/50 dark:border-gray-800/50">
+          <CardHeader className="border-b p-6 bg-gray-50 dark:bg-gray-800/50">
             <div className="flex items-center space-x-4">
-              <Avatar className="w-20 h-20">
+              <Avatar className="w-20 h-20 border-4 border-purple-100 dark:border-purple-900/30">
                 <AvatarImage src={profile.avatar} alt={profile.name} />
-                <AvatarFallback>
+                <AvatarFallback className="bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 font-semibold">
                   {profile.name
                     .split(" ")
                     .map((n) => n[0])
@@ -86,8 +90,8 @@ export default function ProfilePage() {
                 </AvatarFallback>
               </Avatar>
               <div>
-                <p className="text-lg font-medium">{profile.name}</p>
-                <p className="text-sm text-gray-500">
+                <p className="text-lg font-medium text-gray-800 dark:text-gray-200">{profile.name}</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400">
                   Personalize your account with a profile photo.
                 </p>
                 <input
@@ -98,7 +102,7 @@ export default function ProfilePage() {
                   className="hidden"
                 />
                 <Label htmlFor="avatar" className="cursor-pointer">
-                  <Button variant="outline" size="sm" className="mt-2">
+                  <Button variant="outline" size="sm" className="mt-2 border-purple-200 dark:border-purple-800/40 hover:bg-purple-50 dark:hover:bg-purple-900/20 text-purple-600 dark:text-purple-400">
                     Change photo
                   </Button>
                 </Label>
@@ -108,8 +112,9 @@ export default function ProfilePage() {
 
           <CardContent className="p-6 space-y-8">
             {/* Profile Information */}
-            <div className="border-b pb-4">
-              <h3 className="text-lg font-semibold text-gray-800">Profile Info</h3>
+            <div className="border-b pb-4 flex items-center">
+              <User className="w-5 h-5 text-purple-500 dark:text-purple-400 mr-2" />
+              <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200">Profile Info</h3>
             </div>
 
             <ProfileField
@@ -166,8 +171,9 @@ export default function ProfilePage() {
             />
 
             {/* Account Information */}
-            <div className="border-b pb-4 mt-6">
-              <h3 className="text-lg font-semibold text-gray-800">Account Info</h3>
+            <div className="border-b pb-4 mt-6 flex items-center">
+              <Globe className="w-5 h-5 text-green-500 dark:text-green-400 mr-2" />
+              <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200">Account Info</h3>
             </div>
 
             <ProfileField
@@ -197,33 +203,53 @@ export default function ProfilePage() {
             {/* Change Password Section */}
             <div className="mt-6">
               <Button
-                variant="secondary"
+                variant="outline"
                 onClick={() => setShowPasswordFields(!showPasswordFields)}
-                className="w-full flex items-center justify-center space-x-2"
+                className="w-full flex items-center justify-center gap-2 border-purple-200 dark:border-purple-800/40 hover:bg-purple-50 dark:hover:bg-purple-900/20 text-purple-600 dark:text-purple-400"
               >
-                <Key className="h-4 w-4" />
+                <Shield className="h-4 w-4" />
                 <span>Change Password</span>
               </Button>
 
               {showPasswordFields && (
-                <div className="mt-4 space-y-4">
+                <div className="mt-4 space-y-4 p-4 bg-purple-50/50 dark:bg-purple-900/10 rounded-lg border border-purple-100 dark:border-purple-900/20">
                   <div className="space-y-2">
-                    <Label>New Password</Label>
-                    <Input type="password" placeholder="Enter new password" />
+                    <Label className="text-gray-700 dark:text-gray-300">Current Password</Label>
+                    <Input 
+                      type="password" 
+                      placeholder="Enter current password" 
+                      className="bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-700 focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                    />
                   </div>
                   <div className="space-y-2">
-                    <Label>Confirm New Password</Label>
-                    <Input type="password" placeholder="Confirm new password" />
+                    <Label className="text-gray-700 dark:text-gray-300">New Password</Label>
+                    <Input 
+                      type="password" 
+                      placeholder="Enter new password" 
+                      className="bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-700 focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                    />
                   </div>
+                  <div className="space-y-2">
+                    <Label className="text-gray-700 dark:text-gray-300">Confirm New Password</Label>
+                    <Input 
+                      type="password" 
+                      placeholder="Confirm new password" 
+                      className="bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-700 focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                    />
+                  </div>
+                  <Button className="w-full bg-purple-600 hover:bg-purple-700 text-white">
+                    Update Password
+                  </Button>
                 </div>
               )}
             </div>          
 
             <div className="mt-6 flex flex-wrap gap-2">
-              <Button variant="secondary"><a href="/contact">Help-Center</a></Button>
-              <Button variant="destructive">Delete account</Button>
+              <Button variant="outline" className="border-green-200 dark:border-green-800/40 hover:bg-green-50 dark:hover:bg-green-900/20 text-green-600 dark:text-green-400">
+                <a href="/contact">Help Center</a>
+              </Button>
+              <Button variant="destructive" className="hover:bg-red-700">Delete account</Button>
             </div>
-
           </CardContent>
         </Card>
       </div>
@@ -270,21 +296,21 @@ function ProfileField({
   };
 
   return (
-    <div className="flex justify-between items-center">
-      <div>
-        <Label className="text-gray-600">{label}</Label>
+    <div className="flex justify-between items-center p-3 hover:bg-gray-50 dark:hover:bg-gray-800/50 rounded-lg transition-colors">
+      <div className="flex-1">
+        <Label className="text-sm text-gray-600 dark:text-gray-400">{label}</Label>
         {editingField === field ? (
           isDateField ? (
             <DatePicker
               selected={new Date(tempValue)}
               onChange={(date: Date | null) => date && onDateChange?.(date)}
-              className="mt-1"
+              className="mt-1 p-2 w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
             />
           ) : isSelectField ? (
             <select
               value={tempValue}
               onChange={onSelectChange}
-              className="mt-1 p-2 border rounded"
+              className="mt-1 p-2 w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
             >
               {options.map((option) => (
                 <option key={option} value={option}>
@@ -297,28 +323,29 @@ function ProfileField({
               value={tempValue}
               onChange={onChange}
               onKeyDown={handleKeyDown}
-              className="mt-1"
+              className="mt-1 bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-700 focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
             />
           )
         ) : (
-          <p className="text-gray-800">{value}</p>
+          <p className="text-gray-800 dark:text-gray-200 font-medium">{value}</p>
         )}
       </div>
       <div>
         {editingField === field ? (
-          <>
-            <Button size="icon" variant="ghost" onClick={() => onSave(field)}>
-              <Check className="h-4 w-4 text-green-600" />
+          <div className="flex space-x-1">
+            <Button size="icon" variant="ghost" onClick={() => onSave(field)} className="text-green-600 hover:text-green-700 hover:bg-green-100 dark:hover:bg-green-900/20">
+              <Check className="h-4 w-4" />
             </Button>
-            <Button size="icon" variant="ghost" onClick={onCancel}>
-              <X className="h-4 w-4 text-red-600" />
+            <Button size="icon" variant="ghost" onClick={onCancel} className="text-red-600 hover:text-red-700 hover:bg-red-100 dark:hover:bg-red-900/20">
+              <X className="h-4 w-4" />
             </Button>
-          </>
+          </div>
         ) : (
           <Button
             variant="ghost"
             size="icon"
             onClick={() => onEdit(field, value)}
+            className="text-gray-600 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400 hover:bg-purple-50 dark:hover:bg-purple-900/20"
           >
             <Edit className="h-4 w-4" />
           </Button>
