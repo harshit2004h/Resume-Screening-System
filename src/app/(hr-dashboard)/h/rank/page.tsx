@@ -4,7 +4,8 @@ import { Button } from "@/src/components/ui/button";
 
 import { Input } from "@/src/components/ui/input";
 import { Search, UserRound, Award, Filter } from "lucide-react";
-// Added imports for both graphs
+// Added imports for charts
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 interface Person {
   id: number;
