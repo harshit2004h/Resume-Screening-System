@@ -83,10 +83,10 @@ export default function DashboardPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col p-4 lg:p-6 bg-white dark:bg-gray-950 my-8">
+    <div className="h-85% flex flex-col p-4 lg:p-6 bg-white dark:bg-gray-950 my-12 rounded-2xl shadow-lg relative overflow-hidden">
       {/* Primary Theme Color - Purple for decorative elements */}
-      <div className="absolute top-0 right-0 w-96 h-96 bg-purple-100/30 dark:bg-purple-900/10 rounded-full filter blur-3xl -z-10 transform translate-x-1/3 -translate-y-1/3"></div>
-      <div className="absolute bottom-0 left-0 w-96 h-96 bg-purple-100/30 dark:bg-purple-900/10 rounded-full filter blur-3xl -z-10 transform -translate-x-1/3 translate-y-1/3"></div>
+      <div className="absolute top-0 right-0 w-96 h-86 bg-purple-100/30 dark:bg-purple-900/10 rounded-full filter blur-3xl -z-10 transform translate-x-1/3 -translate-y-1/3"></div>
+      <div className="absolute bottom-0 left-0 w-96 h-86 bg-purple-100/30 dark:bg-purple-900/10 rounded-full filter blur-3xl -z-10 transform -translate-x-1/3 translate-y-1/3"></div>
       
       <DashboardHeader />
       
@@ -134,7 +134,7 @@ export default function DashboardPage() {
       {/* Graphs Section - Improved proportions */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
         {/* Purple theme for the first chart */}
-        <div className="bg-white dark:bg-gray-900 p-6 rounded-xl shadow-md border border-purple-100 dark:border-purple-900/20 h-[400px]">
+        <div className="bg-white dark:bg-gray-900 p-6 rounded-xl shadow-md border border-purple-100 dark:border-purple-900/20 h-[350px]">
           <h2 className="text-base font-semibold mb-6 text-gray-800 dark:text-gray-200 flex items-center">
             <span className="w-1 h-5 bg-purple-500 rounded-full mr-3 inline-block"></span>
             Application Trends
@@ -171,7 +171,7 @@ export default function DashboardPage() {
         </div>
         
         {/* Green theme for the second chart */}
-        <div className="bg-white dark:bg-gray-900 p-6 rounded-xl shadow-md border border-green-100 dark:border-green-900/20 h-[400px]">
+        <div className="bg-white dark:bg-gray-900 p-6 rounded-xl shadow-md border border-green-100 dark:border-green-900/20 h-[350px]">
           <h2 className="text-base font-semibold mb-6 text-gray-800 dark:text-gray-200 flex items-center">
             <span className="w-1 h-5 bg-green-500 rounded-full mr-3 inline-block"></span>
             Department Distribution
@@ -207,7 +207,7 @@ export default function DashboardPage() {
       </div>
       
       {/* Recent Activity Section - Purple theme for main content area */}
-      <div className="mt-8 bg-white dark:bg-gray-900 p-6 rounded-xl shadow-md border border-purple-100 dark:border-purple-900/20">
+      <div className="mt-12 bg-white dark:bg-gray-900 p-6 rounded-xl shadow-md border border-purple-100 dark:border-purple-900/20">
         <h2 className="text-base font-semibold mb-6 text-gray-800 dark:text-gray-200 flex items-center">
           <span className="w-1 h-5 bg-purple-500 rounded-full mr-3 inline-block"></span>
           Recent Activity
