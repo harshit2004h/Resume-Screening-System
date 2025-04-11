@@ -1,9 +1,6 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -14,13 +11,197 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
-model User {
-  id           String @id @unique
-  email        String
-  firstName    String
-  lastName     String
-  profileImage String
-  isEmployee   Boolean @default(false)
+enum Role {
+  employee
+  employer
+}
 
-  createdAt DateTime @default(now())
+model Rank {
+  id         String    @id @default(uuid())
+  category   String
+  rank       Int
+  userId     String
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  updatedAt  DateTime  @updatedAt
+  Employee   Employee? @relation(fields: [employeeId], references: [id], onDelete: SetNull)
+  employeeId String?
+
+  @@index([userId])
+  @@index([employeeId])
+}
+
+model Meeting {
+  id              String               @id @default(uuid())
+  title           String
+  startTime       DateTime
+  endTime         DateTime
+  createdById     String
+  calendarEventId String? // From Google Calendar
+  createdAt       DateTime             @default(now())
+  participants    MeetingParticipant[]
+}
+
+model MeetingParticipant {
+  id        String  @id @default(uuid())
+  meeting   Meeting @relation(fields: [meetingId], references: [id], onDelete: Cascade)
+  meetingId String
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+
+  @@index([meetingId])
+  @@index([userId])
+}
+
+model BusySlot {
+  id         String    @id @default(uuid())
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     String
+  startTime  DateTime
+  endTime    DateTime
+  reason     String? // Optional label like "Personal work", "Travel", etc.
+  employee   Employee? @relation(fields: [employeeId], references: [id], onDelete: SetNull)
+  employeeId String?
+
+  @@index([userId])
+  @@index([employeeId])
+}
+
+model Hire {
+  id         String   @id @default(uuid())
+  userId     String?
+  user       User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  employeeId String
+  employee   Employee @relation(fields: [employeeId], references: [id], name: "EmployeeHire", onDelete: Cascade)
+  employerId String
+  employer   Employer @relation(fields: [employerId], references: [id], onDelete: Cascade)
+  hiredAt    DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([userId])
+  @@index([employeeId])
+  @@index([employerId])
+}
+
+model WorkExperience {
+  id               String    @id @default(uuid())
+  companyName      String
+  location         String
+  jobRole          String
+  startDate        DateTime
+  endDate          DateTime
+  employmentType   String // e.g., Full-time, Part-time
+  responsibilities String[] // List of bullet points
+  userId           String
+  user             User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  Employee         Employee? @relation(fields: [employeeId], references: [id], onDelete: SetNull)
+  employeeId       String?
+
+  @@index([userId])
+  @@index([employeeId])
+}
+
+model Project {
+  id          String    @id @default(uuid())
+  title       String
+  techStack   String[]
+  description String
+  githubLink  String?
+  startDate   DateTime?
+  endDate     DateTime?
+  userId      String
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  Employee    Employee? @relation(fields: [employeeId], references: [id], onDelete: SetNull)
+  employeeId  String?
+
+  @@index([userId])
+  @@index([employeeId])
+}
+
+model Certificate {
+  id          String    @id @default(uuid())
+  name        String
+  domain      String
+  description String
+  issuer      String?
+  date        DateTime?
+  userId      String
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  Employee    Employee? @relation(fields: [employeeId], references: [id], onDelete: SetNull)
+  employeeId  String?
+
+  @@index([userId])
+  @@index([employeeId])
+}
+
+model TechnicalSkill {
+  id           String     @id @default(uuid())
+  languages    String[]
+  frameworks   String[]
+  databases    String[]
+  tools        String[]
+  coreConcepts String[] // e.g., DSA, OS, DBMS
+  userId       String     @unique
+  user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  Employee     Employee[]
+
+  @@index([userId])
+}
+
+model User {
+  id           String               @id @unique @default(uuid())
+  email        String               @unique
+  password     String?
+  firstName    String
+  lastName     String?
+  phoneNumber  BigInt?
+  region       String?
+  dob          DateTime?
+  Language     String[]
+  profileImage String?
+  role         Role                 @default(employee)
+  createdAt    DateTime             @default(now())
+  updatedAt    DateTime             @updatedAt
+  meetings     MeetingParticipant[]
+
+  employee Employee?
+  employer Employer?
+
+  Rank           Rank[]
+  BusySlot       BusySlot[]
+  Hire           Hire[]
+  WorkExperience WorkExperience[]
+  Project        Project[]
+  Certificate    Certificate[]
+  TechnicalSkill TechnicalSkill?
+}
+
+model Employer {
+  id          String  @id @default(uuid())
+  userId      String  @unique
+  user        User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  companyName String
+  companyUrl  String?
+  companyLogo String?
+  description String?
+  Hire        Hire[]
+
+  @@index([userId])
+}
+
+model Employee {
+  id               String           @id @default(uuid())
+  user             User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId           String           @unique
+  resumeUrls       String[]
+  ranks            Rank[]
+  busySlots        BusySlot[]
+  projects         Project[]
+  workExperience   WorkExperience[]
+  certificates     Certificate[]
+  technicalSkill   TechnicalSkill?  @relation(fields: [technicalSkillId], references: [id], onDelete: SetNull)
+  hires            Hire[]           @relation("EmployeeHire")
+  technicalSkillId String?
+
+  @@index([userId])
+  @@index([technicalSkillId])
 }
