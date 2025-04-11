@@ -20,7 +20,7 @@ const Dropdown = () => {
           className={`transition-transform duration-150 ${
             isOpen ? "rotate-180" : ""
           }`}
-          src={isOpen ? "/chevron-up-solid.svg" : "/chevron-down-solid.svg"}
+          src={isOpen ? "/assets/chevron-up-solid.svg" : "/assets/chevron-down-solid.svg"}
           width={12}
           height={12}
           alt="Dropdown"

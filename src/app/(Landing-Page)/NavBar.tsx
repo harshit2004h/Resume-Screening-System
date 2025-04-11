@@ -41,13 +41,13 @@ function Navbar({}: { className?: string }) {
             <div className="flex items-center gap-2 cursor-pointer">
               <Image
                 className="rounded-full border border-white"
-                src={"/logo.jpg"}
+                src={"/assets/logo.jpg"}
                 width={40}
                 height={40}
                 alt="Product Logo"
               />
               <Image
-                src={"/skill-sage.png"}
+                src={"/assets/skill-sage.png"}
                 width={130}
                 height={12}
                 alt="Product Name"

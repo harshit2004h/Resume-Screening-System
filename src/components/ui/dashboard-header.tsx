@@ -2,9 +2,9 @@ import { useState } from "react"
 import { CalendarIcon } from "lucide-react"
 import { format } from "date-fns"
 import { cn } from "@/src/lib/utils"
-import { Button } from "@/components/ui/button"
-import { Calendar } from "@/components/ui/calendar"
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import { Button } from "@/src/components/ui/button"
+import { Calendar } from "@/src/components/ui/calendar"
+import { Popover, PopoverContent, PopoverTrigger } from "@/src/components/ui/popover"
 
 export function DashboardHeader() {
   const [date, setDate] = useState<Date | undefined>(new Date())

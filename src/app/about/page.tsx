@@ -11,35 +11,28 @@ const instructors = [
     role: "Backend Developer",
     description:
       "Expert in backend development, specializing in scalable APIs, database management, and system architecture.",
-    image: "/assets/Ginish.png",
+    image: "/photos/Ginish.png",
   },
   {
     name: "Harshit Srivastava",
     role: "Backend Developer",
     description:
       "Focuses on building efficient backend systems, optimizing databases, and ensuring smooth server-side operations.",
-    image: "/assets/Harshit.jpg",
+    image: "/photos/Harshit.jpg",
   },
   {
     name: "Kavya Sharma",
     role: "Frontend Developer",
     description:
       "Passionate about crafting interactive user interfaces, responsive designs, and delivering seamless web experiences.",
-    image: "/assets/Kavya.png",
+    image: "/photos/Kavya.png",
   },
   {
     name: "Piyush Goyal",
     role: "Frontend Developer",
     description:
       "Specializes in modern frontend technologies, ensuring optimal user experience through intuitive design and performance optimization.",
-    image: "/assets/Piyush.png",
-  },
-  {
-    name: "Parth Tandon",
-    role: "Machine Learning Engineer",
-    description:
-      "Works on developing machine learning models, optimizing AI algorithms, and implementing data-driven solutions.",
-    image: "/assets/Parth.png",
+    image: "/photos/Piyush.png",
   },
 ];
 
@@ -94,7 +87,7 @@ export default function AboutUs() {
             className="absolute left-[-70px] top-1/2 transform -translate-y-1/2 p-3 bg-gray-300 dark:bg-[#1e1e1e] border border-gray-400 dark:border-gray-600 rounded-full hover:bg-gray-400 dark:hover:bg-gray-700 transition"
           >
             <Image
-              src={"/left-long-solid.svg"}
+              src={"/assets/left-long-solid.svg"}
               width={20}
               height={20}
               alt="Left"
@@ -144,7 +137,7 @@ export default function AboutUs() {
             className="absolute right-[-70px] top-1/2 transform -translate-y-1/2 p-3 bg-gray-300 dark:bg-[#1e1e1e] border border-gray-400 dark:border-gray-600 rounded-full hover:bg-gray-400 dark:hover:bg-gray-700 transition"
           >
             <Image
-              src={"/left-long-solid.svg"}
+              src={"/assets/left-long-solid.svg"}
               width={20}
               height={20}
               alt="Right"
