@@ -97,7 +97,7 @@ export function Header({
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" size="icon">
               <Image
-                src={picture || "/avatar.png"}
+                src={picture || "/assets/avatar.png"}
                 alt="User Avatar"
                 width={36}
                 height={36}

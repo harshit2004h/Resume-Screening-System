@@ -1,52 +1,9 @@
 "use client";
 import { useState } from "react";
-import { Plus } from "lucide-react";
 import { Button } from "@/src/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/src/components/ui/card";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
-} from "@/src/components/ui/dialog";
+
 import { Input } from "@/src/components/ui/input";
-// Added imports for both graphs
-import {
-  BarChart,
-  Bar,
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-} from "recharts";
 import { useRouter } from "next/navigation";
-
-// Sample data for BarChart
-const sampleBarData = [
-  { name: "A", value: 12 },
-  { name: "B", value: 18 },
-  { name: "C", value: 8 },
-  { name: "D", value: 15 },
-];
-
-// Sample data for LineChart
-const sampleLineData = [
-  { name: "Jan", value: 30 },
-  { name: "Feb", value: 20 },
-  { name: "Mar", value: 27 },
-  { name: "Apr", value: 23 },
-  { name: "May", value: 34 },
-];
 
 // Updated sample data for user details with rank and additional users (total 8 users)
 const sampleUsers = [

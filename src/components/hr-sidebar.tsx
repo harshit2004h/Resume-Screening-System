@@ -105,7 +105,7 @@ export function HrSidebar({
             <ChevronLeft className="w-5 h-5 text-gray-900 dark:text-gray-300" />
           ) : (
             <Image
-              src="/sidebar.svg"
+              src="/assets/sidebar.svg"
               alt="Sidebar Icon"
               width={24}
               height={24}

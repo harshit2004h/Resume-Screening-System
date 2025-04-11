@@ -10,7 +10,7 @@ import {
   SidebarMenu,
   SidebarMenuItem,
   SidebarMenuButton,
-} from "@/components/ui/sidebar"
+} from "@/src/components/ui/sidebar"
 
 export function AppSidebar() {
   return (
