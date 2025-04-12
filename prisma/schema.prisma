@@ -16,6 +16,13 @@ enum Role {
   employer
 }
 
+enum Gender {
+  male
+  female
+  others
+  preferNotToSay
+}
+
 model Rank {
   id         String    @id @default(uuid())
   category   String
@@ -30,25 +37,19 @@ model Rank {
   @@index([employeeId])
 }
 
-model Meeting {
-  id              String               @id @default(uuid())
+model Meetings {
+  id              String   @id @unique
   title           String
+  meetingId       String
   startTime       DateTime
   endTime         DateTime
   createdById     String
+  createdByName   String
   calendarEventId String? // From Google Calendar
-  createdAt       DateTime             @default(now())
-  participants    MeetingParticipant[]
-}
+  createdAt       DateTime @default(now())
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId          String
 
-model MeetingParticipant {
-  id        String  @id @default(uuid())
-  meeting   Meeting @relation(fields: [meetingId], references: [id], onDelete: Cascade)
-  meetingId String
-  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    String
-
-  @@index([meetingId])
   @@index([userId])
 }
 
@@ -148,20 +149,23 @@ model TechnicalSkill {
 }
 
 model User {
-  id           String               @id @unique @default(uuid())
-  email        String               @unique
-  password     String?
-  firstName    String
-  lastName     String?
-  phoneNumber  BigInt?
-  region       String?
-  dob          DateTime?
-  Language     String[]
-  profileImage String?
-  role         Role                 @default(employee)
-  createdAt    DateTime             @default(now())
-  updatedAt    DateTime             @updatedAt
-  meetings     MeetingParticipant[]
+  id               String     @id @unique @default(uuid())
+  email            String     @unique
+  password         String?
+  firstName        String
+  lastName         String?
+  gender           Gender?
+  phoneNumber      BigInt?
+  region           String?
+  dob              DateTime?
+  Language         String[]
+  profileImage     String?
+  role             Role       @default(employee)
+  stripeCustomerId String?    @unique
+  theme            String?    @default("light")
+  createdAt        DateTime   @default(now())
+  updatedAt        DateTime   @updatedAt
+  meetings         Meetings[]
 
   employee Employee?
   employer Employer?
@@ -176,14 +180,16 @@ model User {
 }
 
 model Employer {
-  id          String  @id @default(uuid())
-  userId      String  @unique
-  user        User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  companyName String
-  companyUrl  String?
-  companyLogo String?
-  description String?
-  Hire        Hire[]
+  id                String   @id @default(uuid())
+  userId            String   @unique
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  post              String
+  companyName       String
+  companyUrl        String
+  companyLogo       String?
+  description       String
+  rolesInterestedIn String[]
+  Hire              Hire[]
 
   @@index([userId])
 }
