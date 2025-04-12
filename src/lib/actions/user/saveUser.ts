@@ -1,3 +1,4 @@
+// app/actions/saveUser.ts
 "use server";
 
 import { prisma } from "@/src/lib/db";
@@ -20,10 +21,7 @@ export async function saveUserToDatabase({
 }) {
   const prismaRole = role === "employer" ? Role.employer : Role.employee;
 
-  const user = await prisma.user.findUnique({
-    where: { id },
-  });
-
+  const user = await prisma.user.findUnique({ where: { id } });
   if (!user) {
     await prisma.user.create({
       data: {

@@ -4,7 +4,7 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
-import { saveUserToDatabase } from "@/src/utils/saveUser"; // server action
+import { saveUserToDatabase } from "@/src/lib/actions/user/saveUser";
 
 export default function PostLogin() {
   const router = useRouter();
