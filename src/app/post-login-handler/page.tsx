@@ -1,9 +1,10 @@
 "use client";
+
 import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
-import { fetchUser } from "@/src/lib/getUser";
+import { saveUserToDatabase } from "@/src/utils/saveUser"; // server action
 
 export default function PostLogin() {
   const router = useRouter();
@@ -12,30 +13,38 @@ export default function PostLogin() {
     const redirectUser = async () => {
       const role = Cookies.get("user_role");
 
-      if (!role) {
+      if (!role || (role !== "employee" && role !== "employer")) {
         router.replace("/unauthorized");
         return;
       }
 
-      const user = await fetchUser();
-      const email = user?.email || "";
+      const userRes = await fetch("/api/kinde-user");
+      const user = await userRes.json();
 
-      const isPersonalEmail =
-        email.includes("gmail.com") ||
-        email.includes("yahoo.com") ||
-        email.includes("hotmail.com") ||
-        email.includes("outlook.com");
+      if (!user || !user.email) {
+        router.replace("/unauthorized");
+        return;
+      }
+
+      // Send to server action to insert user into DB
+      await saveUserToDatabase({ ...user, role });
+
+      const domain = user.email.split("@")[1];
+      const isPersonalEmail = [
+        "gmail.com",
+        "yahoo.com",
+        "hotmail.com",
+        "outlook.com",
+      ].includes(domain);
 
       if (role === "employer") {
         if (isPersonalEmail) {
           router.replace("/unauthorized");
         } else {
-          router.replace("/h/dashboard");
+          router.replace("/employer-onboarding");
         }
-      } else if (role === "employee") {
-        router.replace("/upload-resume"); // <-- updated line
       } else {
-        router.replace("/unauthorized");
+        router.replace("/upload-resume");
       }
     };
 

@@ -29,6 +29,6 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "next.config.mjs"
-  ],
+, "src/app/api/kinde-user"  ],
   "exclude": ["node_modules"]
 }
