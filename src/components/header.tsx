@@ -39,18 +39,18 @@ export function Header({
 
   return (
     <header
-      className="fixed top-0 left-0 z-50 flex items-center justify-between h-16 border-b shadow transition-all bg-gray-50 dark:bg-black border-gray-200 dark:border-gray-700"
+      className="fixed top-0 left-0 z-50 flex items-center justify-between h-16 px-6 shadow-md transition-all duration-300 border-b 
+        bg-[#e6f7ec] dark:bg-[#0d1f1a] 
+        border-green-200 dark:border-green-900"
       style={{
         width: `calc(100% - ${isSidebarOpen ? sidebarWidth : 72}px)`,
         marginLeft: isSidebarOpen ? sidebarWidth : 72,
       }}
     >
       {/* Left Section: Welcome Message */}
-      <div className="flex flex-col px-6">
-        <span className="text-sm text-gray-600 dark:text-gray-400">
-          Welcome,
-        </span>
-        <span className="text-lg font-medium text-gray-800 dark:text-gray-200">
+      <div className="flex flex-col">
+        <span className="text-sm text-green-700 dark:text-green-300">Welcome,</span>
+        <span className="text-lg font-semibold text-green-900 dark:text-green-100">
           {givenName} {familyName}
         </span>
       </div>
@@ -58,64 +58,77 @@ export function Header({
       {/* Middle Section: Search Bar */}
       <div className="flex-1 flex justify-center px-4">
         <div className="relative w-full max-w-sm">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 dark:text-gray-400 h-5 w-5" />
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-green-500 dark:text-green-300 h-5 w-5" />
           <Input
             type="text"
             placeholder="Search..."
-            className="pl-10 pr-4 py-2 w-full border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white dark:bg-[#1a1a1a] text-gray-800 dark:text-gray-300 transition"
+            className="pl-10 pr-4 py-2 w-full border border-green-200 dark:border-green-700 
+              rounded-full focus:ring-2 focus:ring-green-400 
+              bg-white dark:bg-[#1a2c24] 
+              text-green-800 dark:text-green-100 transition"
           />
         </div>
       </div>
 
       {/* Right Section: Dark Mode Toggle & User Menu */}
-      <div className="flex items-center space-x-3 px-6">
+      <div className="flex items-center space-x-4">
+        {/* Dark Mode Toggle */}
         <div
           onClick={() => setDarkMode(!darkMode)}
-          className="relative w-12 h-7 flex items-center bg-gray-300 dark:bg-gray-800 rounded-full p-1 cursor-pointer shadow-md transition-all duration-200"
+          className="relative w-14 h-8 flex items-center bg-green-100 dark:bg-green-800 rounded-full p-1 cursor-pointer transition-all duration-300"
         >
           <div
-            className={`absolute w-5 h-5 bg-white dark:bg-yellow-400 rounded-full flex items-center justify-center transition-all duration-200 ${
-              darkMode ? "translate-x-5" : "translate-x-0"
+            className={`absolute w-6 h-6 bg-white dark:bg-green-400 rounded-full flex items-center justify-center shadow-md transition-all duration-300 ${
+              darkMode ? "translate-x-6" : "translate-x-0"
             }`}
           >
             {darkMode ? (
-              <Moon size={12} className="text-gray-900" />
+              <Moon size={14} className="text-green-900" />
             ) : (
-              <Sun size={12} className="text-yellow-500" />
+              <Sun size={14} className="text-yellow-500" />
             )}
           </div>
         </div>
 
+        {/* Notifications Button */}
         <Link href="/notifications">
-          <Button variant="ghost" size="icon">
-            <Bell className="h-6 w-6 text-gray-700 dark:text-gray-300" />
+          <Button
+            variant="ghost"
+            size="icon"
+            className="hover:bg-green-200 dark:hover:bg-green-700 rounded-full transition-all"
+          >
+            <Bell className="h-6 w-6 text-green-800 dark:text-green-200" />
           </Button>
         </Link>
 
         {/* User Profile Dropdown */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="hover:bg-green-200 dark:hover:bg-green-700 rounded-full transition-all"
+            >
               <Image
                 src={picture || "/assets/avatar.png"}
                 alt="User Avatar"
                 width={36}
                 height={36}
-                className="rounded-full object-cover border-black border-2"
+                className="rounded-full object-cover border-2 border-green-300 dark:border-green-700"
               />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent
             align="end"
-            className="bg-white dark:bg-[#000000] shadow-lg rounded-lg w-40 border border-gray-200 dark:border-gray-700 dark:shadow-lg dark:ring-1 dark:ring-gray-700"
+            className="bg-white dark:bg-[#1a2c24] shadow-lg rounded-lg w-40 border border-green-200 dark:border-green-800"
           >
-            <DropdownMenuItem className="text-gray-800 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-150">
+            <DropdownMenuItem className="text-green-800 dark:text-green-200 hover:bg-green-100 dark:hover:bg-green-700">
               <Link href={"/u/profile"}>Profile</Link>
             </DropdownMenuItem>
-            <DropdownMenuItem className="text-gray-800 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-150">
+            <DropdownMenuItem className="text-green-800 dark:text-green-200 hover:bg-green-100 dark:hover:bg-green-700">
               <Link href="/u/settings">Settings</Link>
             </DropdownMenuItem>
-            <DropdownMenuItem className="text-red-500 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-500 dark:hover:text-black transition-all duration-150">
+            <DropdownMenuItem className="text-red-500 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-500 dark:hover:text-black">
               <LogoutLink>Sign out</LogoutLink>
             </DropdownMenuItem>
           </DropdownMenuContent>

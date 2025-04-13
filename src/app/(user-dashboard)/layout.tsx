@@ -34,7 +34,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.className} bg-gray-100 dark:bg-[#121212] text-gray-900 dark:text-gray-100`}
+        className={`${inter.className} py-12 bg-gray-100 dark:bg-[#121212] text-gray-900 dark:text-gray-100`}
       >
         {/* Dark Mode Background */}
         <div className="fixed inset-0 -z-10 transition-all duration-150 dark:bg-black">

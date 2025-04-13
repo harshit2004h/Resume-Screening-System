@@ -61,10 +61,7 @@ export function AppSidebar({
 
   const handleMouseMove = (event: MouseEvent) => {
     if (isResizing.current) {
-      const newWidth = Math.min(
-        Math.max(event.clientX, minSidebarWidth),
-        maxSidebarWidth
-      );
+      const newWidth = Math.min(Math.max(event.clientX, minSidebarWidth), maxSidebarWidth);
       setSidebarWidth(newWidth);
     }
   };
@@ -77,45 +74,34 @@ export function AppSidebar({
   };
 
   const links = [
-    { href: `/u/dashboard`, icon: LayoutDashboard, label: "Dashboard", color: "purple" },
-    { href: `/u/resume`, icon: FileText, label: "Resume", color: "green" },
-    { href: `/u/rank`, icon: TrendingUp, label: "Rank", color: "purple" },
-    { href: `/u/schedule`, icon: Calendar, label: "Schedule", color: "green" },
-    { href: `/u/notifications`, icon: Bell, label: "Notifications", color: "purple" },
-    { href: `/u/profile`, icon: Users, label: "Profile", color: "green" },
-    { href: `/u/settings`, icon: Settings, label: "Settings", color: "purple" },
-    { href: `/u/support`, icon: Headphones, label: "Support", color: "green" },
+    { href: "/u/dashboard", icon: LayoutDashboard, label: "Dashboard", color: "green" },
+    { href: "/u/resume", icon: FileText, label: "Resume", color: "green" },
+    { href: "/u/rank", icon: TrendingUp, label: "Rank", color: "green" },
+    { href: "/u/schedule", icon: Calendar, label: "Schedule", color: "green" },
+    { href: "/u/notifications", icon: Bell, label: "Notifications", color: "green" },
+    { href: "/u/profile", icon: Users, label: "Profile", color: "green" },
+    { href: "/u/settings", icon: Settings, label: "Settings", color: "green" },
+    { href: "/u/support", icon: Headphones, label: "Support", color: "green" },
   ];
 
-  // Ensure the image URL is properly formatted, and provide a fallback
   const profilePic = picture && picture.startsWith("http") ? picture : "/avatar.png";
 
   return (
     <aside
       ref={sidebarRef}
-      className="fixed left-0 top-0 h-screen shadow-lg flex flex-col transition-all ease-in-out duration-200 will-change-[width] overflow-hidden border-r border-gray-200 dark:border-gray-800/50 bg-white dark:bg-gray-950"
-      style={{
-        width: isOpen ? sidebarWidth : collapsedWidth,
-      }}
+      className="fixed left-0 top-0 h-screen flex flex-col transition-all duration-300 ease-in-out border-r border-green-100 bg-gradient-to-br from-green-50 to-green-100 dark:from-gray-900 dark:to-gray-950 shadow-lg"
+      style={{ width: isOpen ? sidebarWidth : collapsedWidth }}
     >
-      {/* Dark Mode Background with purple gradient accent */}
-      <div className="absolute inset-0 opacity-100 dark:bg-gray-950">
-        <div className="absolute bottom-0 left-0 right-0 top-0 dark:bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-none" />
-        <div className="absolute left-0 right-0 top-[-10%] h-[1000px] w-[1000px] rounded-full dark:bg-[radial-gradient(circle_400px_at_50%_300px,#a855f729,#000)]" />
-      </div>
-
-      <div className="relative flex items-center justify-between h-16 px-4 border-b border-gray-200 dark:border-gray-800/50 bg-white/90 dark:bg-gray-900/20 backdrop-blur-sm">
+      <div className="relative flex items-center justify-between h-16 px-4 border-b border-green-100 dark:border-gray-800 bg-white/70 dark:bg-gray-900/20 backdrop-blur-sm">
         {sidebarWidth > 100 && (
-          <h1 className="text-xl font-bold opacity-100 transition-opacity duration-200 bg-gradient-to-r from-purple-600 to-purple-800 dark:from-purple-400 dark:to-purple-600 bg-clip-text text-transparent">
-            SkillSage
-          </h1>
+          <h1 className="text-xl font-bold text-green-700 dark:text-green-300">SkillSage</h1>
         )}
         <button
           onClick={toggleSidebar}
-          className="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 transition relative z-10"
+          className="p-2 rounded-md hover:bg-green-100 dark:hover:bg-gray-800 transition"
         >
           {isOpen ? (
-            <ChevronLeft className="w-5 h-5 text-gray-900 dark:text-gray-300" />
+            <ChevronLeft className="w-5 h-5 text-green-800 dark:text-gray-300" />
           ) : (
             <Image
               src="/assets/sidebar.svg"
@@ -134,35 +120,29 @@ export function AppSidebar({
             <li key={href}>
               <Link
                 href={href}
-                className={`flex items-center p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800/50 transition group`}
+                className="flex items-center p-2 rounded-md hover:bg-green-100 dark:hover:bg-green-900 transition group"
               >
                 <Icon
-                  className={`w-6 h-6 min-w-[24px] ${
-                    color === "purple" 
-                      ? "text-purple-600 dark:text-purple-400 group-hover:text-purple-700 dark:group-hover:text-purple-300" 
-                      : "text-green-600 dark:text-green-400 group-hover:text-green-700 dark:group-hover:text-green-300"
-                  }`}
+                  className={`w-6 h-6 min-w-[24px] text-green-600 dark:text-green-400 group-hover:text-green-700 dark:group-hover:text-green-300`}
                 />
                 {sidebarWidth > 100 && (
-                  <span className={`ml-3 text-gray-700 dark:text-gray-300 group-hover:${
-                    color === "purple" 
-                      ? "text-purple-700 dark:text-purple-300" 
-                      : "text-green-700 dark:text-green-300"
-                  }`}>
+                  <span className="ml-3 text-green-800 dark:text-green-300 group-hover:text-green-900 dark:group-hover:text-green-200">
                     {label}
                   </span>
                 )}
               </Link>
             </li>
           ))}
-          <LogoutLink className="flex items-center p-2 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 transition text-red-500 dark:text-red-400 group mt-6">
+          <LogoutLink className="flex items-center p-2 rounded-md hover:bg-red-50 dark:hover:bg-red-900/20 transition text-red-500 dark:text-red-400 group mt-6">
             <LogOut className="w-6 h-6 min-w-[24px] group-hover:text-red-600 dark:group-hover:text-red-300" />
-            {sidebarWidth > 100 && <span className="ml-3 group-hover:text-red-600 dark:group-hover:text-red-300">Logout</span>}
+            {sidebarWidth > 100 && (
+              <span className="ml-3 group-hover:text-red-600 dark:group-hover:text-red-300">Logout</span>
+            )}
           </LogoutLink>
         </ul>
       </nav>
 
-      <div className="relative mt-auto p-4 space-y-3 border-t border-gray-200 dark:border-gray-800/50 bg-white/90 dark:bg-gray-900/20 backdrop-blur-sm">
+      <div className="relative mt-auto p-4 space-y-3 border-t border-green-100 dark:border-gray-800 bg-gradient-to-br from-green-50 to-green-100 dark:from-gray-900 dark:to-gray-950 backdrop-blur-sm">
         <div className="flex items-center space-x-3">
           <div className="relative">
             <Image
@@ -170,7 +150,7 @@ export function AppSidebar({
               alt="User"
               width={40}
               height={40}
-              className="rounded-full ring-2 ring-purple-200 dark:ring-purple-900"
+              className="rounded-full ring-2 ring-green-300 dark:ring-green-700"
             />
             <span className="absolute bottom-0 right-0 h-3 w-3 bg-green-500 rounded-full border-2 border-white dark:border-gray-900"></span>
           </div>
@@ -179,9 +159,7 @@ export function AppSidebar({
               <p className="text-sm font-semibold text-gray-900 dark:text-gray-100">
                 {givenName} {familyName}
               </p>
-              <p className="text-xs text-gray-600 dark:text-gray-400">
-                {email}
-              </p>
+              <p className="text-xs text-gray-600 dark:text-gray-400">{email}</p>
             </div>
           )}
         </div>
@@ -189,7 +167,7 @@ export function AppSidebar({
 
       {isOpen && (
         <div
-          className="absolute top-0 right-0 h-full w-[3px] bg-transparent cursor-ew-resize transition hover:bg-purple-400/50 dark:hover:bg-purple-600/30"
+          className="absolute top-0 right-0 h-full w-[3px] bg-transparent cursor-ew-resize hover:bg-green-400/50 dark:hover:bg-green-600/30"
           onMouseDown={startResizing}
         />
       )}
